@@ -64,7 +64,7 @@ export function function RootLayout({
     <html lang="en" className="[color-scheme:dark]">
       <body className="overflow-y-scroll bg-gray-1100 bg-[url('/grid.svg')]">
         <EffectorNext>
-         // components
+          // rest of the components tree
         </EffectorNext>
      </html>
   )
