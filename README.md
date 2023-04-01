@@ -15,7 +15,7 @@ This package aims only at technical nuances.
 export const getStaticProps = async () => {
   const scope = fork();
 
-  await allSettled(serverUp, { scope });
+  await allSettled(pageStarted, { scope, params });
 
   return {
     props: {
@@ -80,7 +80,7 @@ In this case you also will need to add the `EffectorNext` provider to the tree +
 export default async function Page() {
   const scope = fork();
 
-  await allSettled(serverUp, { scope });
+  await allSettled(pageStarted, { scope, params });
 
   const values = serialize(scope);
 
