@@ -8,6 +8,26 @@ This is minimal compatibility layer for effector + Next.js - it only provides on
 So far there are no plans to extend the API, e.g., towards better DX - there are already packages like [`nextjs-effector`](https://github.com/risenforces/nextjs-effector).
 This package aims only at technical nuances.
 
+## Installation
+
+### Yarn
+
+```bash
+yarn add effector effector-react <package-name-will-be-added-later>
+```
+
+### NPM
+
+```bash
+npm install effector effector-react <package-name-will-be-added-later>
+```
+
+### PNPM
+
+```bash
+pnpm add effector effector-react <package-name-will-be-added-later>
+```
+
 ## Usage
 
 ### SIDs
