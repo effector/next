@@ -1,5 +1,8 @@
 # nextjs-binds
 
+
+**⚠️ THIS PROJECT IS IN EARLY DEVELOPMENT AND IS NOT STABLE YET ⚠️**
+
 This is minimal compatibility layer for effector + Next.js - it only provides one special `EffectorNext` provider component, which allows to fully leverage effector's Fork API, while handling some *special* parts of Next.js SSR and SSG flow.
 
 So far there are no plans to extend the API, e.g., towards better DX - there are already packages like [`nextjs-effector`](https://github.com/risenforces/nextjs-effector).
