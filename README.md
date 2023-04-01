@@ -7,6 +7,25 @@ This package aims only at technical nuances.
 
 ## Usage
 
+### SIDs
+
+To serialize and transfer state of effector stores between the network boundaries all stores must have an Stable IDentifier - sid.
+
+Sid's are added automatically via either built-in babel plugin or our expiremental SWC plugin.
+
+#### Babel-plugin
+
+```json
+{
+  "presets": ["next/babel"],
+  "plugins": ["effector/babel-plugin"]
+}
+```
+
+#### SWC Plugin
+
+[See effector SWC plugin documentation](https://github.com/effector/swc-plugin)
+
 ### Pages directory
 
 1. Start your computations in server handlers using Fork API
