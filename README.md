@@ -22,6 +22,8 @@ Sid's are added automatically via either built-in babel plugin or our expirement
 }
 ```
 
+[See the docs](https://effector.dev/docs/api/effector/babel-plugin/#usage)
+
 #### SWC Plugin
 
 [See effector SWC plugin documentation](https://github.com/effector/swc-plugin)
