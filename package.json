@@ -6,10 +6,14 @@
   "repository": "git@github.com:effector/nextjs-binds.git",
   "author": "AlexandrHoroshih <xad71rus@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
     "effector": "^22.7.0",
     "effector-react": "^22.5.1",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "vitest": "^0.29.8"
   },
   "peerDependencies": {
     "effector": "^22.7.0",

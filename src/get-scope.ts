@@ -5,7 +5,12 @@ export const getScope =
   typeof window !== "undefined" ? getClientScope : getServerScope;
 
 const _currentScope: Scope = fork();
-function getClientScope(values?: Values) {
+/**
+ * @private
+ *
+ * exported for tests only
+ */
+export function getClientScope(values?: Values) {
   if (!values) return _currentScope;
 
   HACK_injectValues(_currentScope, values);
@@ -16,9 +21,9 @@ function getClientScope(values?: Values) {
 
 /**
  * The following code is some VERY VERY VERY BAD HACKS.
- * 
+ *
  * This only work for a compatibility layer with Next.js and only because of the peculiarities of Next.js behavior.
- * 
+ *
  * This temporary solution on hacks allows us to solve the pain of library users when working with Next.js, as well as gather much more information to develop a better API.
  */
 
