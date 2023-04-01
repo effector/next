@@ -95,4 +95,10 @@ This will both automatically render this subtree with effector's state and also 
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
+## Contributing
 
+There is some stuff to do.
+
+1. We need to figure out, how package should be built. It is a bit unclear, how do we handle `"use_client"` directive
+
+2. After that the usual stuff needs to be set up: CI/CD, npm package publish.
