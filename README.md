@@ -71,8 +71,6 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
-
 #### 2. Server-side computations
 
 Start your computations in server handlers using Fork API
@@ -91,6 +89,8 @@ export const getStaticProps = async () => {
   };
 };
 ```
+
+You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
 ## App directory (Next.js Beta)
 
