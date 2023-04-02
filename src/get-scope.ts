@@ -2,7 +2,7 @@ import { fork, Scope, serialize } from "effector";
 
 type Values = Record<string, unknown>;
 export const getScope =
-  typeof window !== "undefined" ? getClientScope : getServerScope;
+  typeof document !== "undefined" ? getClientScope : getServerScope;
 
 const _currentScope: Scope = fork();
 /**
