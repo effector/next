@@ -143,9 +143,9 @@ export function function RootLayout({
   return (
     <html lang="en">
       <body>
-        <EffectorNext>
+        <EffectorAppNext>
           // rest of the components tree
-        </EffectorNext>
+        </EffectorAppNext>
      </html>
   )
 }
