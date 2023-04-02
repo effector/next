@@ -1,18 +1,33 @@
 {
   "name": "@effector/nextjs",
+  "type": "module",
   "version": "0.0.1",
   "description": "Minimal compatibility layer for effector + Next.js ",
-  "main": "index.js",
   "repository": "git@github.com:effector/nextjs-binds.git",
   "author": "AlexandrHoroshih <xad71rus@gmail.com>",
   "license": "MIT",
+  "main": "index.umd.cjs",
+  "module": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:code": "vite build",
+    "build:types": "yarn tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist --skipLibCheck",
+    "build": "yarn build:code && yarn build:types"
   },
   "devDependencies": {
+    "@types/react": "^18.0.31",
     "effector": "^22.7.0",
     "effector-react": "^22.5.1",
     "react": "^18.2.0",
+    "typescript": "^5.0.3",
+    "vite": "^4.2.1",
     "vitest": "^0.29.8"
   },
   "peerDependencies": {
