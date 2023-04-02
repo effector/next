@@ -71,6 +71,8 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
+Notice, that `EffectorNext` should get serialized scope values via props.
+
 #### 2. Server-side computations
 
 Start your computations in server handlers using Fork API
@@ -89,6 +91,8 @@ export const getStaticProps = async () => {
   };
 };
 ```
+
+Notice, that serialized scope values are provided via the same page prop, which is used in the `_app` for values in `EffectorNext`.
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
