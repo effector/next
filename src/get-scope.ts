@@ -4,6 +4,17 @@ type Values = Record<string, unknown>;
 export const getScope =
   typeof document !== "undefined" ? getClientScope : getServerScope;
 
+function getServerScope(values?: Values) {
+  return fork({ values });
+}
+
+/**
+ * The following code is some VERY VERY VERY BAD HACKS.
+ *
+ * This only work for a compatibility layer with Next.js and only because of the peculiarities of Next.js behavior.
+ *
+ * This temporary solution on hacks allows us to solve the pain of library users when working with Next.js, as well as gather much more information to develop a better API.
+ */
 const _currentScope: Scope = fork();
 /**
  * @private
@@ -17,18 +28,6 @@ export function getClientScope(values?: Values) {
   HACK_resetScopeRefs(_currentScope);
 
   return _currentScope;
-}
-
-/**
- * The following code is some VERY VERY VERY BAD HACKS.
- *
- * This only work for a compatibility layer with Next.js and only because of the peculiarities of Next.js behavior.
- *
- * This temporary solution on hacks allows us to solve the pain of library users when working with Next.js, as well as gather much more information to develop a better API.
- */
-
-function getServerScope(values?: Values) {
-  return fork({ values });
 }
 
 function HACK_injectValues(scope: Scope, values: Values) {
