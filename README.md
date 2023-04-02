@@ -51,7 +51,7 @@ Sid's are added automatically via either built-in babel plugin or our expirement
 
 [See effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
-### Pages directory
+### Pages directory (Next.js Stable)
 
 1. Start your computations in server handlers using Fork API
 
@@ -89,15 +89,43 @@ export default function App({ Component, pageProps }: AppProps) {
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
 
-## App directory
+## App directory (Next.js Beta)
 
 In the `app` directory there are no separate server handlers - because of it steps are a bit different.
 
-1. To just use client components with effector units anywhere in the tree - add `EffectorNext` provider at your [Root Layout](https://beta.nextjs.org/docs/routing/pages-and-layouts#root-layout-required)
-If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/defining-routes#example-creating-multiple-root-layouts) - each one of them should also have the `EffectorNext` provider.
+1. New `app` directory considers all components as Server Components by default.
+
+Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will immideatly get an compile error in Next.js
+
+The official way to handle this - [is to re-export such components as modules with 'use client' directive](https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages).
+
+To do so, create `effector-provider.tsx` file at the top level of your `app` directory and copy-paste following code from snippet there:
+
+```tsx
+// app/effector-provider.tsx
+'use client';
+
+import type { ComponentProps } from 'react';
+import { EffectorNext } from '#/lib/effector-next';
+
+export function EffectorAppNext({
+  values,
+  children,
+}: ComponentProps<typeof EffectorNext>) {
+  return <EffectorNext values={values}>{children}</EffectorNext>;
+}
+
+```
+
+You should use this version of provider in the `app` directory from now on.
+
+2. To use client components with effector units anywhere in the tree - add `EffectorAppNext` provider (which was created at previous step) at your [Root Layout](https://beta.nextjs.org/docs/routing/pages-and-layouts#root-layout-required)
+
+If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/defining-routes#example-creating-multiple-root-layouts) - each one of them should also have the `EffectorAppNext` provider.
 
 ```tsx
 // app/layout.tsx
+import { EffectorAppNext } from "project-root/app/effector-provider"
 
 export function function RootLayout({
   children,
@@ -105,8 +133,8 @@ export function function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="[color-scheme:dark]">
-      <body className="overflow-y-scroll bg-gray-1100 bg-[url('/grid.svg')]">
+    <html lang="en">
+      <body>
         <EffectorNext>
           // rest of the components tree
         </EffectorNext>
@@ -115,11 +143,13 @@ export function function RootLayout({
 }
 ```
 
-2. Server computations work in a similiar to `pages` way, but inside Server Components of the `app` pages.
-In this case you also will need to add the `EffectorNext` provider to the tree + provide it with serialized scope.
+3. Server computations work in a similiar to `pages` way, but inside Server Components of the `app` pages.
+
+In this case you also will need to add the `EffectorAppNext` provider to the tree of this Server Component + provide it with serialized scope.
 
 ```tsx
 // app/some-path/page.tsx
+import { EffectorAppNext } from "project-root/app/effector-provider"
 
 export default async function Page() {
   const scope = fork();
@@ -129,9 +159,9 @@ export default async function Page() {
   const values = serialize(scope);
 
   return (
-    <EffectorNext values={values}>
+    <EffectorAppNext values={values}>
      // rest of the components tree
-    </EffectorNext>
+    </EffectorAppNext>
  )
 }
 ```
@@ -142,7 +172,3 @@ You're all set. Just use effector's units anywhere in components code via `useUn
 ## Contributing
 
 There is some stuff to do.
-
-1. We need to figure out, how package should be built. It is a bit unclear, how do we handle `"use_client"` directive
-
-2. After that the usual stuff needs to be set up: CI/CD, npm package publish.

@@ -1,5 +1,3 @@
-"use client";
-
 import { createElement, ReactNode } from "react";
 import { Provider } from "effector-react";
 
