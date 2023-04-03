@@ -6,6 +6,9 @@
   "repository": "effector/next",
   "author": "AlexandrHoroshih <xad71rus@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.umd.cjs",
   "module": "index.js",
   "exports": {
