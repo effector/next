@@ -1,7 +1,6 @@
-# nextjs-binds
+# Bindings for NextJS
 
-
-**⚠️ THIS PROJECT IS IN EARLY DEVELOPMENT AND IS NOT STABLE YET ⚠️**
+> **⚠️ THIS PROJECT IS IN EARLY DEVELOPMENT AND IS NOT STABLE YET ⚠️**
 
 This is minimal compatibility layer for effector + Next.js - it only provides one special `EffectorNext` provider component, which allows to fully leverage effector's Fork API, while handling some *special* parts of Next.js SSR and SSG flow.
 
@@ -10,31 +9,19 @@ This package aims only at technical nuances.
 
 ## Installation
 
-### Yarn
-
 ```bash
-yarn add effector effector-react <package-name-will-be-added-later>
+npm add effector effector-react @effector/next
 ```
 
-### NPM
-
-```bash
-npm install effector effector-react <package-name-will-be-added-later>
-```
-
-### PNPM
-
-```bash
-pnpm add effector effector-react <package-name-will-be-added-later>
-```
+Also, you can use Yarn or **PNPM** to install dependencies.
 
 ## Usage
 
 ### SIDs
 
-To serialize and transfer state of effector stores between the network boundaries all stores must have an Stable IDentifier - sid.
+To serialize and transfer state of effector stores between the network boundaries all stores must have a Stable IDentifier - sid.
 
-Sid's are added automatically via either built-in babel plugin or our expiremental SWC plugin.
+Sid's are added automatically via either built-in babel plugin or our experimental SWC plugin.
 
 #### Babel-plugin
 
@@ -45,11 +32,11 @@ Sid's are added automatically via either built-in babel plugin or our expirement
 }
 ```
 
-[See the docs](https://effector.dev/docs/api/effector/babel-plugin/#usage)
+[Read the docs](https://effector.dev/docs/api/effector/babel-plugin/#usage)
 
 #### SWC Plugin
 
-[See effector SWC plugin documentation](https://github.com/effector/swc-plugin)
+[Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
 ### Pages directory (Next.js Stable)
 
@@ -77,8 +64,8 @@ Notice, that `EffectorNext` should get serialized scope values via props.
 
 Start your computations in server handlers using Fork API
 
-```tsx
-export const getStaticProps = async () => {
+```ts
+export async function getStaticProps() {
   const scope = fork();
 
   await allSettled(pageStarted, { scope, params });
@@ -98,14 +85,13 @@ You're all set. Just use effector's units anywhere in components code via `useUn
 
 ## App directory (Next.js Beta)
 
-
 #### 1. Setup EffectorNext provider as Client Component
 
 New `app` directory considers all components as Server Components by default.
 
-Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will immideatly get an compile error in Next.js
+Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will immoderately get a compile error in Next.js
 
-The official way to handle this - [is to re-export such components as modules with 'use client' directive](https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages).
+The official way to handle this - [is to re-export such components as modules with "use client" directive](https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages).
 
 To do so, create `effector-provider.tsx` file at the top level of your `app` directory and copy-paste following code from snippet there:
 
@@ -127,7 +113,7 @@ export function EffectorAppNext({
 
 You should use this version of provider in the `app` directory from now on.
 
-> We will bundle the package using the `'use client'` directive once `app` directory goes stable and there will be more information about directives usage.
+> We will bundle the package using the `"use client"` directive once `app` directory goes stable and there will be more information about directives usage.
 
 #### 2. Setup provider in the Root Layout
 
@@ -139,17 +125,14 @@ If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/de
 // app/layout.tsx
 import { EffectorAppNext } from "project-root/app/effector-provider"
 
-export function function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
         <EffectorAppNext>
-          // rest of the components tree
+          {/* rest of the components tree */}
         </EffectorAppNext>
+      </body>
      </html>
   )
 }
@@ -174,7 +157,7 @@ export default async function Page() {
 
   return (
     <EffectorAppNext values={values}>
-     // rest of the components tree
+      {/* rest of the components tree */}
     </EffectorAppNext>
  )
 }
@@ -183,6 +166,10 @@ This will automatically render this subtree with effector's state and also will 
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
-## Contributing
+## Release process
 
-There is some stuff to do.
+1. Check out the [draft release](https://github.com/effector/next/releases).
+1. All PRs should have correct labels and useful titles. You can [review available labels here](https://github.com/effector/next/blob/main/.github/release-drafter.yml).
+1. Update labels for PRs and titles, next [manually run the release drafter action](https://github.com/effector/next/actions/workflows/release-drafter.yml) to regenerate the draft release.
+1. Review the new version and press "Publish"
+1. If required check "Create discussion for this release"
