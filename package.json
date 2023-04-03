@@ -5,6 +5,7 @@
   "description": "Minimal compatibility layer for effector + Next.js",
   "repository": "effector/next",
   "author": "AlexandrHoroshih <xad71rus@gmail.com>",
+  "private": false,
   "license": "MIT",
   "publishConfig": {
     "access": "public"
