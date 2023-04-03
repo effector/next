@@ -1,5 +1,5 @@
 {
-  "name": "@effector/nextjs",
+  "name": "@effector/next",
   "type": "module",
   "version": "0.0.0-real-version-will-be-set-on-ci",
   "description": "Minimal compatibility layer for effector + Next.js",
