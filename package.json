@@ -1,7 +1,7 @@
 {
   "name": "@effector/nextjs",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.0-real-version-will-be-set-on-ci",
   "description": "Minimal compatibility layer for effector + Next.js ",
   "repository": "git@github.com:effector/nextjs-binds.git",
   "author": "AlexandrHoroshih <xad71rus@gmail.com>",
