@@ -1,4 +1,4 @@
-# Bindings for NextJS
+# Bindings for Next.js
 
 > **⚠️ THIS PROJECT IS IN EARLY DEVELOPMENT AND IS NOT STABLE YET ⚠️**
 
