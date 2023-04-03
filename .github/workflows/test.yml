@@ -9,19 +9,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup yarn
-        uses: mskelton/setup-yarn@v1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
 
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: "yarn"
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install
 
       - name: Run tests
-        run: yarn test
+        run: pnpm test
         env:
           CI: true
