@@ -34,10 +34,25 @@ function HACK_injectValues(scope: Scope, values: Values) {
   const oldValues = serialize(scope);
 
   // @ts-expect-error this is a really hacky way to "hydrate" scope
-  scope.sidValuesMap = {
-    ...oldValues,
-    ...values,
-  };
+  if (scope.values) {
+    /**
+     * effector@22.8.0 and higher
+     */
+    // @ts-expect-error
+    scope.values.sidMap = {
+      ...oldValues,
+      ...values,
+    }
+  } else {
+    /**
+     * effector before 22.8.0
+     */
+    // @ts-expect-error this is a really hacky way to "hydrate" scope
+    scope.sidValuesMap = {
+      ...oldValues,
+      ...values,
+    };
+  }
 }
 
 function HACK_resetScopeRefs(scope: Scope) {
