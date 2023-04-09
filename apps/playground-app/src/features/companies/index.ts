@@ -1,2 +1,2 @@
-export { companiesPage } from "./model";
-export { Companies } from "./ui";
+export { companiesListPage, companyPage } from "./model";
+export { Companies, CompanyDetails } from "./ui";

@@ -2,8 +2,10 @@
 
 import { reflect, list, variant } from "@effector/reflect";
 import { StoreValue } from "effector";
+import { useUnit } from "effector-react";
+import Link from "next/link";
 
-import { $companiesList } from "./model";
+import { $companiesList, $currentCompany } from "./model";
 
 export const Companies = () => {
   return (
@@ -14,8 +16,26 @@ export const Companies = () => {
   );
 };
 
-const Company = reflect({
+export const CompanyDetails = () => {
+  const company = useUnit($currentCompany);
+
+  if (!company) {
+    return <div>Company not found</div>;
+  }
+
+  return (
+    <div>
+      <h1>Company Details</h1>
+      <h2>{company.name}</h2>
+      <img src={company.imageLink} alt={company.name} />
+      <p>{company.description}</p>
+    </div>
+  );
+};
+
+const CompanyItem = reflect({
   view: ({
+    id,
     name,
     imageLink,
     description,
@@ -24,6 +44,7 @@ const Company = reflect({
       <h2>{name}</h2>
       <img src={imageLink} alt={name} />
       <p>{description}</p>
+      <Link href={`/companies/${id}`}>Details</Link>
     </li>
   ),
   bind: {},
@@ -32,9 +53,9 @@ const Company = reflect({
 const CompaniesList = variant({
   if: $companiesList.map((list) => list.length > 0),
   then: list({
-    view: Company,
+    view: CompanyItem,
     source: $companiesList,
     getKey: (item) => item.id,
   }),
-  else: () => <div>No companies loaded</div>
+  else: () => <div>No companies loaded</div>,
 });

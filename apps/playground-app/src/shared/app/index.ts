@@ -14,11 +14,11 @@ const $currentPage = createStore<typeof pageTypes[number] | null>(null).on(
 
 export function declarePage<Ctx = void>(config: {
   pageType: typeof pageTypes[number];
+  contextContract?: {
+    isData: (data: unknown) => data is Ctx;
+  };
 }) {
-  const open = pageStarted.prepend((ctx: Ctx) => ({
-    pageType: config.pageType,
-    pageCtx: ctx,
-  }));
+  const open = createEvent<Ctx>();
 
   const $ctx = createStore<Ctx | null>(null, {
     /**
@@ -33,25 +33,71 @@ export function declarePage<Ctx = void>(config: {
      * See the docs on SIDs: https://effector.dev/docs/api/effector/babel-plugin#sid
      */
     sid: `pageCtx:${config.pageType}`,
-  }).on(open, (_, pageCtx) => pageCtx);
+  });
+
+  sample({
+    clock: open,
+    filter: (rawCtx) => {
+      if (config.contextContract) {
+        return config.contextContract.isData(rawCtx);
+      }
+
+      /**
+       * Skip as-is, if no contract is provided
+       */
+
+      return true;
+    },
+    target: [
+      $ctx,
+      pageStarted.prepend((ctx: Ctx) => ({
+        pageCtx: ctx,
+        pageType: config.pageType,
+      })),
+    ],
+  });
 
   const $active = $currentPage.map((page) => page === config.pageType);
-  const opened = sample({
+  const activated = sample({
     clock: $active,
     filter: Boolean,
-    fn: () => {
-      // void
-    },
   });
-  const closed = sample({
+  const deactivated = sample({
     clock: $active,
     filter: (active) => !active,
-    fn: () => {
-      // void
-    },
   });
 
-  $ctx.on(closed, () => null);
+  const opened = createEvent<Ctx>();
+  const closed = createEvent<Ctx>();
+
+  sample({
+    clock: activated,
+    source: $ctx,
+    /**
+     * Type assertion is totally fine here, as we know that $ctx will be of Ctx type at this moment,
+     * because it is the way this logic is written and also here we have a contract check for that
+     *
+     * We can't (yet?) express it in the TypeScript type system though, hence the `as Ctx` cast
+     *
+     * In real-world apps it is better to write some tests for such cases, rather than
+     * writing more complicated code to satisfy the type inference system
+     */
+    fn: (ctx) => ctx as Ctx,
+    target: opened,
+  });
+
+  sample({
+    clock: deactivated,
+    source: $ctx,
+    fn: (ctx) => ctx as Ctx,
+    target: closed,
+  });
+
+  sample({
+    clock: closed,
+    fn: () => null,
+    target: $ctx,
+  });
 
   return {
     open,

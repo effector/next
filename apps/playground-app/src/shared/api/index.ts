@@ -10,14 +10,7 @@ import { faker } from "@faker-js/faker";
 export const companiesQuery = createQuery({
   name: "getCompanies",
   effect: createEffect(async () => {
-    const result = list(() => ({
-      id: faker.datatype.uuid(),
-      name: faker.company.name(),
-      imageLink: faker.image.business(),
-      description: faker.company.bs(),
-    }));
-
-    return result;
+    return fakeCompanies;
   }),
   contract: runtypeContract(
     t.Array(
@@ -30,13 +23,12 @@ export const companiesQuery = createQuery({
     )
   ),
 });
-
-cache(companiesQuery, {
-  // perist data in cache
-  // so we are not making requests on every page open on the server
-  adapter: inMemoryCache(),
-  staleAfter: "2min",
-});
+const fakeCompanies = list(() => ({
+  id: faker.datatype.uuid(),
+  name: faker.company.name(),
+  imageLink: faker.image.business(250, 250, true),
+  description: faker.company.bs(),
+}));
 
 // utils
 function list<T>(cb: () => T): T[] {

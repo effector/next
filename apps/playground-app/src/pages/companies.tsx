@@ -1,14 +1,14 @@
 import { fork, serialize, allSettled } from "effector";
-import { Companies, companiesPage } from "#root/features/companies";
+import { Companies, companiesListPage } from "#root/features/companies";
 
-export default function PageCompanies() {
+export default function CompaniesPage() {
   return <Companies />;
 }
 
 export const getServerSideProps = async () => {
   const scope = fork();
 
-  await allSettled(companiesPage.open, { scope });
+  await allSettled(companiesListPage.open, { scope, params: null });
 
   return {
     props: {
