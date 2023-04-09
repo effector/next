@@ -1,4 +1,4 @@
-import { createQuery, cache, inMemoryCache } from "@farfetched/core";
+import { createQuery } from "@farfetched/core";
 import { createEffect } from "effector";
 import * as t from "runtypes";
 import { runtypeContract } from "@farfetched/runtypes";
