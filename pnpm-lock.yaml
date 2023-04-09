@@ -4,10 +4,14 @@ specifiers:
   '@types/react': ^18.0.31
   effector: ^22.7.0
   effector-react: ^22.5.1
+  patronum: ^1.17.0
   react: ^18.2.0
   typescript: ^5.0.3
   vite: ^4.2.1
   vitest: ^0.29.8
+
+dependencies:
+  patronum: 1.17.0_effector@22.7.0
 
 devDependencies:
   '@types/react': 18.0.32
@@ -391,7 +395,6 @@ packages:
   /effector/22.7.0:
     resolution: {integrity: sha512-C3jMCjRmU/j7Mu04q0zm45OYglQB9fYxSHNu51UrV77VDZJRs7nFmNfNiaXmgkKOnsUP4VuyE64aiSvAZWZo7g==}
     engines: {node: '>=11.0.0'}
-    dev: true
 
   /emoji-regex/9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
@@ -524,6 +527,14 @@ packages:
   /pathval/1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: true
+
+  /patronum/1.17.0_effector@22.7.0:
+    resolution: {integrity: sha512-FCcbjJ52ELV5ikaqURjniCEV4IfrtBP6BSOBpmP7iCvC9seo83YjymSfxaaRBG5vkn/HRKf/5SDpHangJylBKw==}
+    peerDependencies:
+      effector: ^22.1.2
+    dependencies:
+      effector: 22.7.0
+    dev: false
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}

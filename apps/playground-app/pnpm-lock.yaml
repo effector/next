@@ -1,15 +1,19 @@
 lockfileVersion: 5.4
 
+overrides:
+  effector: 22.8.0
+
 specifiers:
-  '@effector/next': link:../../
+  '@effector/next': ^0.1.3
   '@effector/reflect': ^8.3.1
   '@faker-js/faker': ^7.6.0
   '@farfetched/core': ^0.8.5
+  '@farfetched/runtypes': ^0.8.5
   '@types/node': 18.15.11
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
   autoprefixer: 10.4.14
-  effector: ^22.7.0
+  effector: 22.8.0
   effector-react: ^22.5.1
   eslint: 8.38.0
   eslint-config-next: 13.3.0
@@ -17,14 +21,16 @@ specifiers:
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0
+  runtypes: ^6.6.0
   tailwindcss: 3.3.1
   typescript: 5.0.4
 
 dependencies:
-  '@effector/next': link:../..
+  '@effector/next': 0.1.3_spmxyirrt55n22pycud5janfey
   '@effector/reflect': 8.3.1_spmxyirrt55n22pycud5janfey
   '@faker-js/faker': 7.6.0
   '@farfetched/core': 0.8.5_effector@22.8.0
+  '@farfetched/runtypes': 0.8.5_zzqdtiibempdfgbpi7ckvvwxwu
   '@types/node': 18.15.11
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
@@ -37,6 +43,7 @@ dependencies:
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  runtypes: 6.6.0
   tailwindcss: 3.3.1_postcss@8.4.21
   typescript: 5.0.4
 
@@ -47,6 +54,18 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
+
+  /@effector/next/0.1.3_spmxyirrt55n22pycud5janfey:
+    resolution: {integrity: sha512-CMGngyrO35Nkgz72vc17H99CI/o5CPjwsvSz+qibU5q5PLsbXVDShI5FuzGXUwhjxiHbhwQu9JyxeJPZEnIkQQ==}
+    peerDependencies:
+      effector: ^22.7.0
+      effector-react: ^22.5.1
+      react: ^18.2.0
+    dependencies:
+      effector: 22.8.0
+      effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
+      react: 18.2.0
     dev: false
 
   /@effector/reflect/8.3.1_spmxyirrt55n22pycud5janfey:
@@ -109,6 +128,16 @@ packages:
       effector: ^22.5.0
     dependencies:
       effector: 22.8.0
+    dev: false
+
+  /@farfetched/runtypes/0.8.5_zzqdtiibempdfgbpi7ckvvwxwu:
+    resolution: {integrity: sha512-MCR2LikaxaM+HIAD3kXdos6Q+/h5VtsuN7DzDOVPbn7Wbcz5TYjyhaoeH8VGfIdzZCxbcaXmTcIjZxo1Fi5SZg==}
+    peerDependencies:
+      '@farfetched/core': 0.8.5
+      runtypes: ^6.6.0
+    dependencies:
+      '@farfetched/core': 0.8.5_effector@22.8.0
+      runtypes: 6.6.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
@@ -2196,6 +2225,10 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+    dev: false
+
+  /runtypes/6.6.0:
+    resolution: {integrity: sha512-ddM7sgB3fyboDlBzEYFQ04L674sKjbs4GyW2W32N/5Ae47NRd/GyMASPC2PFw8drPHYGEcZ0mZ26r5RcB8msfQ==}
     dev: false
 
   /safe-regex-test/1.0.0:
