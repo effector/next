@@ -44,7 +44,12 @@ const CompanyItem = reflect({
       <h2>{name}</h2>
       <img src={imageLink} alt={name} />
       <p>{description}</p>
-      <Link href={`/companies/${id}`}>Details</Link>
+      <div>
+        <Link href={`/companies/${id}`}>Details</Link>
+      </div>
+      <div>
+        <Link href={`/app-companies/${id}`}>Details (App directory)</Link>
+      </div>
     </li>
   ),
   bind: {},
