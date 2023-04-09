@@ -43,8 +43,5 @@
     "README.md",
     "dist",
     "LICENSE"
-  ],
-  "dependencies": {
-    "patronum": "^1.17.0"
-  }
+  ]
 }
