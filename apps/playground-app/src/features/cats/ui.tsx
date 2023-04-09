@@ -43,7 +43,12 @@ const CatItem = reflect({
       <h2>{kind}</h2>
       <img src={imageLink} alt={kind} />
       <p>{description}</p>
-      <Link href={`/cats/${kind}`}>Details</Link>
+      <div>
+        <Link href={`/cats/${kind}`}>Details</Link>
+      </div>
+      <div>
+        <Link href={`/app-cats/${kind}`}>Details (App)</Link>
+      </div>
     </li>
   ),
   bind: {},
