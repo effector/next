@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import { EffectorNext } from "@effector/next";
+import "mvp.css"
 
 import { Layout } from "#root/features/layout/ui";
 

@@ -14,6 +14,7 @@ specifiers:
   effector-react: ^22.5.1
   eslint: 8.38.0
   eslint-config-next: 13.3.0
+  mvp.css: ^1.12.0
   next: 13.3.0
   patronum: ^1.17.0
   postcss: 8.4.21
@@ -37,6 +38,7 @@ dependencies:
   effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
   eslint: 8.38.0
   eslint-config-next: 13.3.0_voubu7prgxjfsfbgx5d4sqnwiy
+  mvp.css: 1.12.0
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
   patronum: 1.17.0_effector@22.8.0
   postcss: 8.4.21
@@ -1792,6 +1794,10 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+    dev: false
+
+  /mvp.css/1.12.0:
+    resolution: {integrity: sha512-X/nIJUP/aIaD6gzPEOLIQxxotZEpRhnwKADT4ydxnnt8AACOSu/PJxFKCW1ouxbXVVERWOYxJp/tA45U0EVPaw==}
     dev: false
 
   /mz/2.7.0:
