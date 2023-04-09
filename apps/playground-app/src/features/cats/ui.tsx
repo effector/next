@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { reflect, list, variant } from "@effector/reflect";
 import { StoreValue } from "effector";
 import { useUnit } from "effector-react";
@@ -27,7 +28,7 @@ export const CatDetails = () => {
     <div>
       <h1>Cat Details</h1>
       <h2>{cat.kind}</h2>
-      <img src={cat.imageLink} alt={cat.kind} />
+      <Image src={cat.imageLink} alt={cat.kind} width={250} height={250} />
       <p>{cat.description}</p>
     </div>
   );

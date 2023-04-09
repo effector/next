@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { reflect, list, variant } from "@effector/reflect";
 import { StoreValue } from "effector";
 import { useUnit } from "effector-react";
@@ -27,7 +28,7 @@ export const CompanyDetails = () => {
     <div>
       <h1>Company Details</h1>
       <h2>{company.name}</h2>
-      <img src={company.imageLink} alt={company.name} />
+      <Image src={company.imageLink} alt={company.name} />
       <p>{company.description}</p>
     </div>
   );
@@ -42,7 +43,7 @@ const CompanyItem = reflect({
   }: StoreValue<typeof $companiesList>[number]) => (
     <li>
       <h2>{name}</h2>
-      <img src={imageLink} alt={name} />
+      <Image src={imageLink} alt={name} width={250} height={250} />
       <p>{description}</p>
       <div>
         <Link href={`/companies/${id}`}>Details</Link>
