@@ -1,6 +1,5 @@
 import { CounterButton } from "#root/features/layout/ui";
 import Link from "next/link";
-import "./globals.css";
 import { EffectorAppNext } from "./effector-provider";
 
 export const metadata = {
@@ -16,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div>App dir</div>
         <EffectorAppNext>
           <nav>
             <ul>

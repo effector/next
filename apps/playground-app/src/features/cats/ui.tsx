@@ -12,7 +12,9 @@ export const Cats = () => {
   return (
     <div>
       <h1>Cats</h1>
-      <CatsList />
+      <ul>
+        <CatsList />
+      </ul>
     </div>
   );
 };
@@ -42,7 +44,7 @@ const CatItem = reflect({
   }: StoreValue<typeof $catsList>[number]) => (
     <li>
       <h2>{kind}</h2>
-      <img src={imageLink} alt={kind} />
+      <Image src={imageLink} alt={kind} width={250} height={250} />
       <p>{description}</p>
       <div>
         <Link href={`/cats/${kind}`}>Details</Link>

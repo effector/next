@@ -12,7 +12,9 @@ export const Companies = () => {
   return (
     <div>
       <h1>Companies</h1>
-      <CompaniesList />
+      <ul>
+        <CompaniesList />
+      </ul>
     </div>
   );
 };

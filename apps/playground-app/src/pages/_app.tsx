@@ -17,6 +17,7 @@ function App({
 
   return (
     <EffectorNext values={values}>
+      <div>Pages dir</div>
       <Layout>
         <Component />
       </Layout>
