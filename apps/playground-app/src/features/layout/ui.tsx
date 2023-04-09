@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useUnit } from "effector-react";
 import Link from "next/link";
@@ -12,10 +12,16 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       <nav>
         <ul>
           <li>
-            <Link href="/pages-root">Main page</Link>
+            <Link href="/">Main page of `app` directory</Link>
+          </li>
+          <li>
+            <Link href="/pages-root">Main page of `pages` directory</Link>
           </li>
           <li>
             <Link href="/companies">List of companies</Link>
+          </li>
+          <li>
+            <Link href="/cats">List of cats</Link>
           </li>
         </ul>
         <CounterButton />

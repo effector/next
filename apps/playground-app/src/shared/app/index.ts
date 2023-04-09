@@ -1,6 +1,6 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 
-const pageTypes = ["companies", "company"] as const;
+const pageTypes = ["companies", "company", "cats", "cat"] as const;
 
 export const pageStarted = createEvent<{
   pageType: typeof pageTypes[number];
