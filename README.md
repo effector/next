@@ -100,7 +100,7 @@ To do so, create `effector-provider.tsx` file at the top level of your `app` dir
 'use client';
 
 import type { ComponentProps } from 'react';
-import { EffectorNext } from '#/lib/effector-next';
+import { EffectorNext } from '@effector/next';
 
 export function EffectorAppNext({
   values,
