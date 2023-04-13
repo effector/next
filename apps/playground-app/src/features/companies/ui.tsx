@@ -30,7 +30,7 @@ export const CompanyDetails = () => {
     <div>
       <h1>Company Details</h1>
       <h2>{company.name}</h2>
-      <Image src={company.imageLink} alt={company.name} />
+      <Image src={company.imageLink} alt={company.name} width={250} height={250} />
       <p>{company.description}</p>
     </div>
   );
