@@ -6,6 +6,9 @@ import { faker } from "@faker-js/faker";
 
 /**
  * In real life this would be createJsonQuery to real API
+ *
+ * Read more
+ * https://farfetched.pages.dev/tutorial/built_in_query_factories.html#json-api
  */
 export const companiesQuery = createQuery({
   name: "getCompanies",
@@ -45,7 +48,9 @@ export const catsQuery = createQuery({
 });
 export const getCatQuery = createQuery({
   name: "getCat",
-  effect: createEffect(async (_kind: string) => getFakeCat()),
+  effect: createEffect(
+    async (kind: string) => fakeCats.find((c) => c.kind === kind) ?? null
+  ),
   contract: runtypeContract(
     t.Record({
       kind: t.String,
@@ -60,6 +65,33 @@ const getFakeCat = () => ({
   description: faker.lorem.sentence(),
 });
 const fakeCats = list(getFakeCat);
+
+export const productsQuery = createQuery({
+  name: "getProducts",
+  initialData: [],
+  effect: createEffect(async () => fakeProducts),
+  contract: runtypeContract(
+    t.Array(
+      t.Record({
+        id: t.String,
+        name: t.String,
+        imageLink: t.String,
+        description: t.String,
+        price: t.String,
+        category: t.String,
+      })
+    )
+  ),
+});
+const getFakeProduct = () => ({
+  id: faker.datatype.uuid(),
+  name: faker.commerce.productName(),
+  imageLink: faker.image.food(250, 250, true),
+  description: faker.commerce.productDescription(),
+  price: faker.commerce.price(100, 200, 0, "$"),
+  category: faker.commerce.department(),
+});
+const fakeProducts = list(getFakeProduct);
 
 // utils
 function list<T>(cb: () => T): T[] {

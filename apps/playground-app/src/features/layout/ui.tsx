@@ -23,6 +23,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           <li>
             <Link href="/cats">List of cats</Link>
           </li>
+          <li>
+            <Link href="/products">List of products</Link>
+          </li>
         </ul>
         <CounterButton />
       </nav>
