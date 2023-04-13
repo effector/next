@@ -17,6 +17,7 @@ specifiers:
   fs-extra: ^11.1.1
   mvp.css: ^1.12.0
   next: 13.3.0
+  nextjs-effector: 0.50.0-beta.0
   patronum: ^1.17.0
   postcss: 8.4.21
   react: 18.2.0
@@ -42,6 +43,7 @@ dependencies:
   eslint-config-next: 13.3.0_voubu7prgxjfsfbgx5d4sqnwiy
   mvp.css: 1.12.0
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
+  nextjs-effector: 0.50.0-beta.0_nodbzx7rv2tezypmcqrzv5spny
   patronum: 1.17.0_effector@22.8.0
   postcss: 8.4.21
   react: 18.2.0
