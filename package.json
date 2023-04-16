@@ -22,7 +22,7 @@
   "scripts": {
     "test": "vitest run",
     "build:code": "vite build",
-    "build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist --skipLibCheck",
+    "build:types": "tsc",
     "build": "pnpm build:code && pnpm build:types"
   },
   "devDependencies": {
