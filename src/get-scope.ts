@@ -50,7 +50,7 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
   for (const id in scope.reg) {
     // @ts-expect-error
     const ref = scope.reg[id];
-    if (!ref.meta || ref.meta?.derived) {
+    if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
       /**
        * Force recalculation of derived values
        */
