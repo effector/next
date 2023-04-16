@@ -4,7 +4,7 @@ specifiers:
   '@babel/core': ^7.21.4
   '@types/react': ^18.0.31
   '@vitejs/plugin-react': ^3.1.0
-  effector: ^22.7.0
+  effector: ^22.8.1
   effector-react: ^22.5.1
   react: ^18.2.0
   typescript: ^5.0.3
@@ -15,8 +15,8 @@ devDependencies:
   '@babel/core': 7.21.4
   '@types/react': 18.0.32
   '@vitejs/plugin-react': 3.1.0_vite@4.2.1
-  effector: 22.7.0
-  effector-react: 22.5.1_xzy47btpk6b7akis5sqfq2jw2y
+  effector: 22.8.1
+  effector-react: 22.5.1_7pz56azflmmsy3j6ndodafgmke
   react: 18.2.0
   typescript: 5.0.3
   vite: 4.2.1
@@ -703,20 +703,20 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /effector-react/22.5.1_xzy47btpk6b7akis5sqfq2jw2y:
+  /effector-react/22.5.1_7pz56azflmmsy3j6ndodafgmke:
     resolution: {integrity: sha512-Sy5b/sUEZoCuyoCr+SiHcgd0L+PQqnIGx+SuPCZ7MhECYxezkkeecsk0EVj9sykLL2qlEeg+rdiWvIATJgOTeA==}
     engines: {node: '>=11.0.0'}
     peerDependencies:
       effector: ^22.0.2
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.7.0
+      effector: 22.8.1
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: true
 
-  /effector/22.7.0:
-    resolution: {integrity: sha512-C3jMCjRmU/j7Mu04q0zm45OYglQB9fYxSHNu51UrV77VDZJRs7nFmNfNiaXmgkKOnsUP4VuyE64aiSvAZWZo7g==}
+  /effector/22.8.1:
+    resolution: {integrity: sha512-368ysZBxxqr0ThVYElhmo8p8rT2wTZ0hF/BIg1FxNPSIdr/wvw4Hbnioy22CbgtU5d53CnadkJnSlKqfOICOwg==}
     engines: {node: '>=11.0.0'}
     dev: true
 

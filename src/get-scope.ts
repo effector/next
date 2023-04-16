@@ -25,7 +25,7 @@ export function getClientScope(values?: Values) {
   if (!values) return _currentScope;
 
   HACK_injectValues(_currentScope, values);
-  HACK_resetScopeRefs(_currentScope);
+  HACK_updateScopeRefs(_currentScope, values);
 
   return _currentScope;
 }
@@ -34,33 +34,36 @@ function HACK_injectValues(scope: Scope, values: Values) {
   const oldValues = serialize(scope);
 
   // @ts-expect-error this is a really hacky way to "hydrate" scope
-  if (scope.values) {
-    /**
-     * effector@22.8.0 and higher
-     */
-    // @ts-expect-error
-    scope.values.sidMap = {
-      ...oldValues,
-      ...values,
-    }
-  } else {
-    /**
-     * effector before 22.8.0
-     */
-    // @ts-expect-error this is a really hacky way to "hydrate" scope
-    scope.sidValuesMap = {
-      ...oldValues,
-      ...values,
-    };
-  }
+  scope.values.sidMap = {
+    ...oldValues,
+    ...values,
+  };
 }
 
-function HACK_resetScopeRefs(scope: Scope) {
-  /**
-   * Kind of equal to proposed fork(scope) behaviour
-   */
-  // @ts-expect-error hacky way to reset state refs owned by this scope
-  scope.reg = {};
-  // @ts-expect-error hacky way to reset state refs owned by this scope
-  scope.sidIdMap = {};
+function HACK_updateScopeRefs(scope: Scope, values: Values) {
+  const idSidMap = Object.fromEntries(
+    // @ts-expect-error
+    Object.entries(scope.sidIdMap).map(([sid, id]) => [id, sid])
+  );
+
+  // @ts-expect-error
+  for (const id in scope.reg) {
+    // @ts-expect-error
+    const ref = scope.reg[id];
+    if (!ref.meta || ref.meta?.derived) {
+      /**
+       * Force recalculation of derived values
+       */
+      // @ts-expect-error
+      delete scope.reg[id];
+    } else {
+      /**
+       * Update non-derived values
+       */
+      const sid = idSidMap[id];
+      if (sid && sid in values) {
+        ref.current = values[sid];
+      }
+    }
+  }
 }
