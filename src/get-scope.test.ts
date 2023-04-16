@@ -46,6 +46,7 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState($combined)).toEqual({ ref: 0 });
     expect(clientScopeOne.getState($nestedCombined)).toEqual({ ref: { ref: 0 } });
     expect(clientScopeOne.getState($sampled)).toEqual(0);
+    expect(clientScopeOne.getState(longUpFx.pending)).toEqual(false);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
 
     const promise = allSettled(longUpFx, { scope: clientScopeOne });
@@ -59,6 +60,7 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState($combined)).toEqual({ ref: 3 });
     expect(clientScopeOne.getState($nestedCombined)).toEqual({ ref: { ref: 3 } });
     expect(clientScopeOne.getState($sampled)).toEqual(3);
+    expect(clientScopeOne.getState(longUpFx.pending)).toEqual(true);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(1);
 
     await promise;
@@ -68,6 +70,7 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState($combined)).toEqual({ ref: 4 });
     expect(clientScopeOne.getState($nestedCombined)).toEqual({ ref: { ref: 4 } });
     expect(clientScopeOne.getState($sampled)).toEqual(4);
+    expect(clientScopeOne.getState(longUpFx.pending)).toEqual(false);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
   });
 });
