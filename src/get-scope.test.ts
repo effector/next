@@ -88,4 +88,32 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
   });
+  test("shallow navigation to same page", async () => {
+    const serverScope = fork();
+
+    await allSettled(up, { scope: serverScope });
+    await allSettled(up, { scope: serverScope });
+    await allSettled(up, { scope: serverScope });
+
+    const values = serialize(serverScope);
+
+    const clientScopeOne = getClientScope(values);
+
+    expect(clientScopeOne.getState($count)).toEqual(3);
+
+    await allSettled(up, { scope: clientScopeOne });
+
+    expect(clientScopeOne.getState($count)).toEqual(4);
+
+    // This imitates shallow navigation to same page, e.g. with different query params
+    //
+    // Next.js will reuse the same pageProps instance in this case
+    // which will basically override current page state with initial one
+    //
+    // So we need to basically just ignore it, because
+    // we already have the latest state in the client scope
+    const clientScopeTwo = getClientScope(values);
+
+    expect(clientScopeTwo.getState($count)).toEqual(4);
+  });
 });
