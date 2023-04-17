@@ -39,23 +39,26 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
   // @ts-expect-error
   for (const id in scope.reg) {
     // @ts-expect-error
-    const ref = scope.reg[id];
-    if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
-      /**
-       * Force recalculation of derived values
-       */
+    if (Object.hasOwnProperty.call(scope.reg, id)) {
       // @ts-expect-error
-      delete scope.reg[id];
-    } else {
-      /**
-       * Update non-derived values
-       */
-      const sid = ref?.meta?.sid;
-      if (sid && sid in values) {
-        const serialize = ref?.meta?.serialize;
-        const read =
-          serialize && serialize !== "ingore" ? serialize?.read : null;
-        ref.current = read ? read(values[sid]) : values[sid];
+      const ref = scope.reg[id];
+      if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
+        /**
+         * Force recalculation of derived values
+         */
+        // @ts-expect-error
+        delete scope.reg[id];
+      } else {
+        /**
+         * Update non-derived values
+         */
+        const sid = ref?.meta?.sid;
+        if (sid && sid in values) {
+          const serialize = ref?.meta?.serialize;
+          const read =
+            serialize && serialize !== "ingore" ? serialize?.read : null;
+          ref.current = read ? read(values[sid]) : values[sid];
+        }
       }
     }
   }
