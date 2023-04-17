@@ -1,4 +1,4 @@
-import { fork, Scope, serialize } from "effector";
+import { fork, Scope } from "effector";
 
 type Values = Record<string, unknown>;
 export const getScope =
@@ -31,21 +31,11 @@ export function getClientScope(values?: Values) {
 }
 
 function HACK_injectValues(scope: Scope, values: Values) {
-  const oldValues = serialize(scope);
-
   // @ts-expect-error this is a really hacky way to "hydrate" scope
-  scope.values.sidMap = {
-    ...oldValues,
-    ...values,
-  };
+  Object.assign(scope.values.sidMap, values);
 }
 
 function HACK_updateScopeRefs(scope: Scope, values: Values) {
-  const idSidMap = Object.fromEntries(
-    // @ts-expect-error
-    Object.entries(scope.sidIdMap).map(([sid, id]) => [id, sid])
-  );
-
   // @ts-expect-error
   for (const id in scope.reg) {
     // @ts-expect-error
@@ -60,9 +50,12 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
       /**
        * Update non-derived values
        */
-      const sid = idSidMap[id];
+      const sid = ref?.meta?.sid;
       if (sid && sid in values) {
-        ref.current = values[sid];
+        const serialize = ref?.meta?.serialize;
+        const read =
+          serialize && serialize !== "ingore" ? serialize?.read : null;
+        ref.current = read ? read(values[sid]) : values[sid];
       }
     }
   }
