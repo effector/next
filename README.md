@@ -83,13 +83,23 @@ Notice, that serialized scope values are provided via the same page prop, which 
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
-## App directory (Next.js Beta)
+## ⚠️ App directory (Next.js Beta) ⚠️
+
+#### 0. Make sure you aware of current status of the App directory
+
+The App directory (or App router) - it is a new Next.js API with new features and conventions.
+
+At the moment it is ⚠️ officialy not production ready ⚠️ and Next.js team explicitly states, that all App directory related features are not following semver, which means that breaking changes are possible even in patch-level releases.
+
+Also, when App directory is enabled, Next.js is using special alpha-version bundle of React - it is needed to support new features like React Server Components. This also means that even your existing code at Pages directory may be broken, e.g. if there is a bug in the alpha version which is not present in the current stable version.
+
+Make sure that you understand the risks and willing to use this experimental API.
 
 #### 1. Setup EffectorNext provider as Client Component
 
 New `app` directory considers all components as Server Components by default.
 
-Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will immoderately get a compile error in Next.js
+Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will get a compile error in Next.js
 
 The official way to handle this - [is to re-export such components as modules with "use client" directive](https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages).
 
