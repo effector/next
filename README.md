@@ -83,6 +83,106 @@ Notice, that serialized scope values are provided via the same page prop, which 
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
+## Important caveats
+
+There are a few special nuances of Next.js behaviour, that you need to consider.
+
+### Effector's `serialize: "ignore"` is not recommended
+
+Effector's `createStore` has `serialize` setting, which allows you to either setup custom rule for store's value serialization or mark it as `ignore` to completely strip this value from serialization.
+
+Normally in typical SSR application you could use it to calculate some server-only value at the server, use it for render, and then just ignore it when serializing.
+
+```tsx
+// some-module.ts
+export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
+
+// request handler
+
+export async function renderApp(req) {
+ const scope = fork()
+ 
+ await allSettled(appStarted, { scope, params: req })
+ 
+ // serialization boundaries
+ const appContent = renderToString(
+      // scope object can be used for the render directly
+      <Provider value={scope}>
+        <App />
+      </Provider>
+    )
+ const stateScript = `<script>self.__STATE__ = ${serialize(scope)}</script>` // does not contain value of `$serverOnlyValue`
+ 
+ return htmlResponse(appContent, stateScript)
+}
+```
+
+But with Next.js serialization boundary happens much earlier, before server renders even started.
+
+It happens because of unique Next.js features like running page logic only at server even for client transitions.
+
+This feature requires, that response of every server data-fetching function is serializable to json string.
+
+That means, that using `serialize: "ignore"` will just hide this store value from server render too.
+
+```tsx
+// some-module.ts
+export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
+
+// some-component
+
+export function Component() {
+ const value = useUnit($serverOnlyValue)
+ 
+ return value ? <>{value}<> : <>No value</>
+}
+
+// pages/some-page
+export async function getServerSideProps(req) {
+ const scope = fork()
+
+  await allSettled(appStarted, { scope, params: req })
+  
+  // scope.getState($serverOnlyValue) is not null at this point
+
+  return {
+   props: {
+    values: serialize(scope)
+    // scope.getState($serverOnlyValue) is stripped off here :(
+    // Component will always render "No value"
+   }
+  }
+}
+```
+
+Because of that it is not recommended to use `serialize: "ignore"` if the store is somehow needed for render.
+
+You can use custom serialization config instead
+
+```ts
+const $date = createStore<null | Date>(null, {
+  serialize: {
+    write: dateOrNull => (dateOrNull ? dateOrNull.toISOString() : dateOrNull),
+    read: isoStringOrNull =>
+      isoStringOrNull ? new Date(isoStringOrNull) : isoStringOrNull,
+  },
+})
+```
+
+[Docs](https://effector.dev/docs/api/effector/createStore#example-with-custom-serialize-configuration)
+
+
+### ESM dependencies and library duplicates in the bundle
+
+Since Next.js 12 [ESM imports are prioritized over CommonJS imports](https://nextjs.org/blog/next-12#es-modules-support-and-url-imports). While CJS-only dependencies are still supported, it is not recommended to use them.
+
+In case of `@effector/next` or `effector` it may lead to duplicated instances of the library in the bundle, which in turn leads to weird bugs.
+
+You can check for library duplicates in the bundle either automatically with [statoscope.tech](https://statoscope.tech/) Webpack Plugin or manually via `Debug -> Sources -> Webpack -> _N_E -> node_modules` tab in the browser developer tools. 
+
+<img width="418" alt="image" src="https://user-images.githubusercontent.com/32790736/233786487-304cfac0-3686-460b-b2f9-9fb0de38a4dc.png">
+
+
 ## ⚠️ App directory (Next.js Beta) ⚠️
 
 #### 0. Make sure you aware of current status of the App directory
