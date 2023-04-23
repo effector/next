@@ -4,9 +4,7 @@ import "mvp.css";
 import { Layout } from "#root/features/layout/ui";
 import { withEffector } from "nextjs-effector";
 
-function App({
-  Component,
-}: AppProps<{ values: Record<string, unknown> }>) {
+function App({ Component }: AppProps<{ values: Record<string, unknown> }>) {
   return (
     <>
       <div>Pages dir</div>

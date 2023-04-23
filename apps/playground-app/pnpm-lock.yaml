@@ -10,14 +10,14 @@ specifiers:
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
   autoprefixer: 10.4.14
-  effector: ^22.8.0
+  effector: ^22.8.1
   effector-react: ^22.5.1
   eslint: 8.38.0
   eslint-config-next: 13.3.0
   fs-extra: ^11.1.1
   mvp.css: ^1.12.0
   next: 13.3.0
-  nextjs-effector: 0.50.0-beta.0
+  nextjs-effector: 0.41.0
   patronum: ^1.17.0
   postcss: 8.4.21
   react: 18.2.0
@@ -28,23 +28,23 @@ specifiers:
   zx: ^7.2.1
 
 dependencies:
-  '@effector/next': 0.3.0_spmxyirrt55n22pycud5janfey
-  '@effector/reflect': 8.3.1_spmxyirrt55n22pycud5janfey
+  '@effector/next': 0.3.0_7ckf2kp2tmrwvriisngv6efaiy
+  '@effector/reflect': 8.3.1_7ckf2kp2tmrwvriisngv6efaiy
   '@faker-js/faker': 7.6.0
-  '@farfetched/core': 0.8.5_effector@22.8.0
+  '@farfetched/core': 0.8.5_effector@22.8.1
   '@farfetched/runtypes': 0.8.5_zzqdtiibempdfgbpi7ckvvwxwu
   '@types/node': 18.15.11
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
   autoprefixer: 10.4.14_postcss@8.4.21
-  effector: 22.8.0
-  effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
+  effector: 22.8.1
+  effector-react: 22.5.1_7pz56azflmmsy3j6ndodafgmke
   eslint: 8.38.0
   eslint-config-next: 13.3.0_voubu7prgxjfsfbgx5d4sqnwiy
   mvp.css: 1.12.0
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
-  nextjs-effector: 0.50.0-beta.0_nodbzx7rv2tezypmcqrzv5spny
-  patronum: 1.17.0_effector@22.8.0
+  nextjs-effector: 0.41.0_ewmtkqycpg6k4w5ymi6afcxhc4
+  patronum: 1.17.0_effector@22.8.1
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -65,27 +65,27 @@ packages:
       regenerator-runtime: 0.13.11
     dev: false
 
-  /@effector/next/0.3.0_spmxyirrt55n22pycud5janfey:
+  /@effector/next/0.3.0_7ckf2kp2tmrwvriisngv6efaiy:
     resolution: {integrity: sha512-e3WuX96SvH9AoGhN1PDraXiaFXnow/ZiNlTtOiLzMcY3TXhhBYXgDZOnS5n2BtUtz4GvC3/mTaYrmtxXUUtnFQ==}
     peerDependencies:
       effector: ^22.8.1
       effector-react: ^22.5.1
       react: ^18.2.0
     dependencies:
-      effector: 22.8.0
-      effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
+      effector: 22.8.1
+      effector-react: 22.5.1_7pz56azflmmsy3j6ndodafgmke
       react: 18.2.0
     dev: false
 
-  /@effector/reflect/8.3.1_spmxyirrt55n22pycud5janfey:
+  /@effector/reflect/8.3.1_7ckf2kp2tmrwvriisngv6efaiy:
     resolution: {integrity: sha512-RjDTBkb8smdgFMViid7R4YYjRtYwYooAAQ2F8T0fYMCfDntPtYC2e1Nd17tDKxC6HuKVuqk5CzlkQovV3QPo6A==}
     peerDependencies:
       effector: ^22.0.0
       effector-react: ^22.1.0
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.8.0
-      effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
+      effector: 22.8.1
+      effector-react: 22.5.1_7pz56azflmmsy3j6ndodafgmke
       react: 18.2.0
     dev: false
 
@@ -131,12 +131,12 @@ packages:
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: false
 
-  /@farfetched/core/0.8.5_effector@22.8.0:
+  /@farfetched/core/0.8.5_effector@22.8.1:
     resolution: {integrity: sha512-NpsW0Dma874dh1gcl3z/otl9+w0H7YlCMgG9RPBSxuMzkXM7ldKStiwgxI33qdFawQt3OOspeoBXL55fTEftNw==}
     peerDependencies:
       effector: ^22.5.0
     dependencies:
-      effector: 22.8.0
+      effector: 22.8.1
     dev: false
 
   /@farfetched/runtypes/0.8.5_zzqdtiibempdfgbpi7ckvvwxwu:
@@ -145,7 +145,7 @@ packages:
       '@farfetched/core': 0.8.5
       runtypes: ^6.6.0
     dependencies:
-      '@farfetched/core': 0.8.5_effector@22.8.0
+      '@farfetched/core': 0.8.5_effector@22.8.1
       runtypes: 6.6.0
     dev: false
 
@@ -835,20 +835,20 @@ packages:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
 
-  /effector-react/22.5.1_hdn4de4izcmge23dze6weicxxu:
+  /effector-react/22.5.1_7pz56azflmmsy3j6ndodafgmke:
     resolution: {integrity: sha512-Sy5b/sUEZoCuyoCr+SiHcgd0L+PQqnIGx+SuPCZ7MhECYxezkkeecsk0EVj9sykLL2qlEeg+rdiWvIATJgOTeA==}
     engines: {node: '>=11.0.0'}
     peerDependencies:
       effector: ^22.0.2
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.8.0
+      effector: 22.8.1
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /effector/22.8.0:
-    resolution: {integrity: sha512-YLECzXGyIpJjefai3noBonQOx7prhs9qg6zLdIxV9VBNXbRO4iYPXOVh2rh34JETroObDiZpQ+XqsxLJtIykKA==}
+  /effector/22.8.1:
+    resolution: {integrity: sha512-368ysZBxxqr0ThVYElhmo8p8rT2wTZ0hF/BIg1FxNPSIdr/wvw4Hbnioy22CbgtU5d53CnadkJnSlKqfOICOwg==}
     engines: {node: '>=11.0.0'}
     dev: false
 
@@ -1941,6 +1941,24 @@ packages:
       - babel-plugin-macros
     dev: false
 
+  /nextjs-effector/0.41.0_ewmtkqycpg6k4w5ymi6afcxhc4:
+    resolution: {integrity: sha512-MdxWQZcgxWSvHosDk28Qn69/86BhWcCLk0Ef2qrHauA1Smn2weFsgDajruIQ3p9IlTNF6lt6xD/HFSko+M9eJQ==}
+    peerDependencies:
+      '@effector/next': ^0.3.0
+      effector: ^22.8.1
+      effector-react: ^22.5.1
+      next: '>=12.0.0'
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
+    dependencies:
+      '@effector/next': 0.3.0_7ckf2kp2tmrwvriisngv6efaiy
+      effector: 22.8.1
+      effector-react: 22.5.1_7pz56azflmmsy3j6ndodafgmke
+      next: 13.3.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /node-domexception/1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
@@ -2111,12 +2129,12 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  /patronum/1.17.0_effector@22.8.0:
+  /patronum/1.17.0_effector@22.8.1:
     resolution: {integrity: sha512-FCcbjJ52ELV5ikaqURjniCEV4IfrtBP6BSOBpmP7iCvC9seo83YjymSfxaaRBG5vkn/HRKf/5SDpHangJylBKw==}
     peerDependencies:
       effector: ^22.1.2
     dependencies:
-      effector: 22.8.0
+      effector: 22.8.1
     dev: false
 
   /pause-stream/0.0.11:
