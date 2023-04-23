@@ -8,5 +8,5 @@ await within(async () => {
 });
 
 // copy to node_modules
-await copy("../../dist", "node_modules/nextjs-effector/dist");
-await copy("../../package.json", "node_modules/nextjs-effector/package.json");
+await copy("../../dist", "node_modules/@effector/next/dist");
+await copy("../../package.json", "node_modules/@effector/next/package.json");
