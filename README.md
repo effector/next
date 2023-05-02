@@ -45,6 +45,8 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 Add provider to the `pages/_app.tsx` and provide it with server-side `values`
 
 ```tsx
+import { EffectorNext } from "@effector/next"
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main>
@@ -65,6 +67,10 @@ Notice, that `EffectorNext` should get serialized scope values via props.
 Start your computations in server handlers using Fork API
 
 ```ts
+import { fork, allSettled, serialize } from "effector"
+
+import { pageStarted } from "../src/my-page-model"
+
 export async function getStaticProps() {
   const scope = fork();
 
