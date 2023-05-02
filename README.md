@@ -100,6 +100,7 @@ Effector's `createStore` has `serialize` setting, which allows you to either set
 Normally in typical SSR application you could use it to calculate some server-only value at the server, use it for render, and then just ignore it when serializing.
 
 ```tsx
+// typical custom ssr example
 // some-module.ts
 export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
 
