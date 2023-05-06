@@ -10,7 +10,7 @@ import {
   sample,
 } from "effector";
 
-import { getClientScope } from "./get-scope";
+import { internalGetClientScope } from "./get-scope";
 
 const up = createEvent();
 const longUpFx = createEffect(async () => {
@@ -45,7 +45,7 @@ describe("getClientScope", () => {
 
     const serverValues = serialize(serverScope);
 
-    const clientScopeOne = getClientScope();
+    const clientScopeOne = internalGetClientScope();
 
     expect(clientScopeOne.getState($count)).toEqual(0);
     expect(clientScopeOne.getState($derived)).toEqual({ ref: 0 });
@@ -62,7 +62,7 @@ describe("getClientScope", () => {
 
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(1);
 
-    const clientScopeTwo = getClientScope(serverValues);
+    const clientScopeTwo = internalGetClientScope(serverValues);
 
     expect(clientScopeTwo.getState($count)).toEqual(3);
     expect(clientScopeOne.getState($derived)).toEqual({ ref: 3 });
@@ -97,7 +97,7 @@ describe("getClientScope", () => {
 
     const values = serialize(serverScope);
 
-    const clientScopeOne = getClientScope(values);
+    const clientScopeOne = internalGetClientScope(values);
 
     expect(clientScopeOne.getState($count)).toEqual(3);
 
@@ -112,7 +112,7 @@ describe("getClientScope", () => {
     //
     // So we need to basically just ignore it, because
     // we already have the latest state in the client scope
-    const clientScopeTwo = getClientScope(values);
+    const clientScopeTwo = internalGetClientScope(values);
 
     expect(clientScopeTwo.getState($count)).toEqual(4);
   });
