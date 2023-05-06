@@ -2,7 +2,7 @@
 
 > **⚠️ THIS PROJECT IS IN EARLY DEVELOPMENT AND IS NOT STABLE YET ⚠️**
 
-This is minimal compatibility layer for effector + Next.js - it only provides one special `EffectorNext` provider component, which allows to fully leverage effector's Fork API, while handling some *special* parts of Next.js SSR and SSG flow.
+This is minimal compatibility layer for effector + Next.js - it only provides one special `EffectorNext` provider component, which allows to fully leverage effector's Fork API, while handling some _special_ parts of Next.js SSR and SSG flow.
 
 So far there are no plans to extend the API, e.g., towards better DX - there are already packages like [`nextjs-effector`](https://github.com/risenforces/nextjs-effector).
 This package aims only at technical nuances.
@@ -45,7 +45,7 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 Add provider to the `pages/_app.tsx` and provide it with server-side `values`
 
 ```tsx
-import { EffectorNext } from "@effector/next"
+import { EffectorNext } from "@effector/next";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -67,9 +67,9 @@ Notice, that `EffectorNext` should get serialized scope values via props.
 Start your computations in server handlers using Fork API
 
 ```ts
-import { fork, allSettled, serialize } from "effector"
+import { fork, allSettled, serialize } from "effector";
 
-import { pageStarted } from "../src/my-page-model"
+import { pageStarted } from "../src/my-page-model";
 
 export async function getStaticProps() {
   const scope = fork();
@@ -82,12 +82,55 @@ export async function getStaticProps() {
       values: serialize(scope),
     },
   };
-};
+}
 ```
 
 Notice, that serialized scope values are provided via the same page prop, which is used in the `_app` for values in `EffectorNext`.
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
+
+### Dev-Tools integration
+
+Most of `effector` dev-tools options require direct access to the `scope` of the app.
+At the client you can get current scope via `getClientScope` function, which will return `Scope` in the browser and `null` at the server.
+
+Example of `@effector/redux-devtools-adapter` integration
+
+```tsx
+import type { AppProps } from "next/app";
+import { EffectorNext, getClientScope } from "@effector/next";
+import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
+
+const clientScope = getClientScope();
+
+if (clientScope) {
+  /**
+   * Notice, that we need to check for the client scope first
+   *
+   * It will be `null` at the server
+   */
+  attachReduxDevTools({
+    scope: clientScope,
+    name: "playground-app",
+    trace: true,
+  });
+}
+
+function App({
+  Component,
+  pageProps,
+}: AppProps<{ values: Record<string, unknown> }>) {
+  const { values } = pageProps;
+
+  return (
+    <EffectorNext values={values}>
+      <Component />
+    </EffectorNext>
+  );
+}
+
+export default App;
+```
 
 ## Important caveats
 
@@ -102,25 +145,25 @@ Normally in typical SSR application you could use it to calculate some server-on
 ```tsx
 // typical custom ssr example
 // some-module.ts
-export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
+export const $serverOnlyValue = createStore(null, { serialize: "ignore" });
 
 // request handler
 
 export async function renderApp(req) {
- const scope = fork()
- 
- await allSettled(appStarted, { scope, params: req })
- 
- // serialization boundaries
- const appContent = renderToString(
-      // scope object can be used for the render directly
-      <Provider value={scope}>
-        <App />
-      </Provider>
-    )
- const stateScript = `<script>self.__STATE__ = ${serialize(scope)}</script>` // does not contain value of `$serverOnlyValue`
- 
- return htmlResponse(appContent, stateScript)
+  const scope = fork();
+
+  await allSettled(appStarted, { scope, params: req });
+
+  // serialization boundaries
+  const appContent = renderToString(
+    // scope object can be used for the render directly
+    <Provider value={scope}>
+      <App />
+    </Provider>
+  );
+  const stateScript = `<script>self.__STATE__ = ${serialize(scope)}</script>`; // does not contain value of `$serverOnlyValue`
+
+  return htmlResponse(appContent, stateScript);
 }
 ```
 
@@ -140,7 +183,7 @@ export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
 
 export function Component() {
  const value = useUnit($serverOnlyValue)
- 
+
  return value ? <>{value}<> : <>No value</>
 }
 
@@ -149,7 +192,7 @@ export async function getServerSideProps(req) {
  const scope = fork()
 
   await allSettled(appStarted, { scope, params: req })
-  
+
   // scope.getState($serverOnlyValue) is not null at this point
 
   return {
@@ -169,15 +212,14 @@ You can use custom serialization config instead
 ```ts
 const $date = createStore<null | Date>(null, {
   serialize: {
-    write: dateOrNull => (dateOrNull ? dateOrNull.toISOString() : dateOrNull),
-    read: isoStringOrNull =>
+    write: (dateOrNull) => (dateOrNull ? dateOrNull.toISOString() : dateOrNull),
+    read: (isoStringOrNull) =>
       isoStringOrNull ? new Date(isoStringOrNull) : isoStringOrNull,
   },
-})
+});
 ```
 
 [Docs](https://effector.dev/docs/api/effector/createStore#example-with-custom-serialize-configuration)
-
 
 ### ESM dependencies and library duplicates in the bundle
 
@@ -190,7 +232,6 @@ You can check for library duplicates in the bundle either automatically with [st
 You can also check it manually via `Debug -> Sources -> Webpack -> _N_E -> node_modules` tab in the browser developer tools. Duplicated modules will be presented here in both `mjs` and `cjs` kinds.
 
 <img width="418" alt="image" src="https://user-images.githubusercontent.com/32790736/233786487-304cfac0-3686-460b-b2f9-9fb0de38a4dc.png">
-
 
 ## ⚠️ App directory (Next.js Beta) ⚠️
 
@@ -216,10 +257,10 @@ To do so, create `effector-provider.tsx` file at the top level of your `app` dir
 
 ```tsx
 // app/effector-provider.tsx
-'use client';
+"use client";
 
-import type { ComponentProps } from 'react';
-import { EffectorNext } from '@effector/next';
+import type { ComponentProps } from "react";
+import { EffectorNext } from "@effector/next";
 
 export function EffectorAppNext({
   values,
@@ -227,7 +268,6 @@ export function EffectorAppNext({
 }: ComponentProps<typeof EffectorNext>) {
   return <EffectorNext values={values}>{children}</EffectorNext>;
 }
-
 ```
 
 You should use this version of provider in the `app` directory from now on.
@@ -242,18 +282,16 @@ If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/de
 
 ```tsx
 // app/layout.tsx
-import { EffectorAppNext } from "project-root/app/effector-provider"
+import { EffectorAppNext } from "project-root/app/effector-provider";
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <EffectorAppNext>
-          {/* rest of the components tree */}
-        </EffectorAppNext>
+        <EffectorAppNext>{/* rest of the components tree */}</EffectorAppNext>
       </body>
-     </html>
-  )
+    </html>
+  );
 }
 ```
 
@@ -265,7 +303,7 @@ In this case you will need to add the `EffectorAppNext` provider to the tree of 
 
 ```tsx
 // app/some-path/page.tsx
-import { EffectorAppNext } from "project-root/app/effector-provider"
+import { EffectorAppNext } from "project-root/app/effector-provider";
 
 export default async function Page() {
   const scope = fork();
@@ -278,9 +316,10 @@ export default async function Page() {
     <EffectorAppNext values={values}>
       {/* rest of the components tree */}
     </EffectorAppNext>
- )
+  );
 }
 ```
+
 This will automatically render this subtree with effector's state and also will automatically "hydrate" client scope with new values.
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.

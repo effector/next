@@ -1,8 +1,19 @@
 import type { AppProps } from "next/app";
-import { EffectorNext } from "@effector/next";
-import "mvp.css"
+import { EffectorNext, getClientScope } from "@effector/next";
+import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
+import "mvp.css";
 
 import { Layout } from "#root/features/layout/ui";
+
+const clientScope = getClientScope();
+
+if (clientScope) {
+  attachReduxDevTools({
+    scope: clientScope,
+    name: "playground-app",
+    trace: true,
+  });
+}
 
 function App({
   Component,

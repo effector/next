@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@effector/next': ^0.3.0
+  '@effector/redux-devtools-adapter': ^0.1.5
   '@effector/reflect': ^8.3.1
   '@faker-js/faker': ^7.6.0
   '@farfetched/core': ^0.8.5
@@ -28,6 +29,7 @@ specifiers:
 
 dependencies:
   '@effector/next': 0.3.0_spmxyirrt55n22pycud5janfey
+  '@effector/redux-devtools-adapter': 0.1.5_effector@22.8.0
   '@effector/reflect': 8.3.1_spmxyirrt55n22pycud5janfey
   '@faker-js/faker': 7.6.0
   '@farfetched/core': 0.8.5_effector@22.8.0
@@ -73,6 +75,14 @@ packages:
       effector: 22.8.0
       effector-react: 22.5.1_hdn4de4izcmge23dze6weicxxu
       react: 18.2.0
+    dev: false
+
+  /@effector/redux-devtools-adapter/0.1.5_effector@22.8.0:
+    resolution: {integrity: sha512-2brQsZiaBJ/BvxZFYmF46E9JIprxNp3RRcYw9kVlhpplizVKtJS0BvAfQ7Bb7aVQFJ2cYmxWPG+gMP4viT+C0w==}
+    peerDependencies:
+      effector: ^22.8.1
+    dependencies:
+      effector: 22.8.0
     dev: false
 
   /@effector/reflect/8.3.1_spmxyirrt55n22pycud5janfey:
