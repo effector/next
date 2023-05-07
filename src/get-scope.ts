@@ -2,20 +2,18 @@ import { fork, Scope } from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
-export const getScope = typeof isClient
-  ? internalGetClientScope
-  : getServerScope;
+export const getScope = isClient ? internalGetClientScope : getServerScope;
 
 function getServerScope(values?: Values) {
   return fork({ values });
 }
 
 /**
- * 
+ *
  * Handler to get current client scope.
- * 
+ *
  * Required for proper integrations with dev-tools.
- * 
+ *
  * @returns current client scope in browser and null in server environment
  */
 export function getClientScope() {
