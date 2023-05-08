@@ -6,7 +6,7 @@ import {
   catsListPage,
 } from "#root/features/cats";
 
-import { EffectorAppNext } from "#root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export const revalidate = 10;
 
@@ -34,8 +34,8 @@ export default async function CatDetailsAppPage({ params }: any) {
   const values = serialize(scope);
 
   return (
-    <EffectorAppNext values={values}>
+    <EffectorNext values={values}>
       <CatDetails />
-    </EffectorAppNext>
+    </EffectorNext>
   );
 }

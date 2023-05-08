@@ -1,7 +1,7 @@
 import { fork, serialize, allSettled } from "effector";
 import { Companies, companiesListPage } from "#root/features/companies";
 
-import { EffectorAppNext } from "#root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export default async function AppCompaniesPage() {
   /**
@@ -19,13 +19,9 @@ export default async function AppCompaniesPage() {
 
   const values = serialize(scope);
 
-  /**
-   * Except for that, the values should be provided to the EffectorAppNext provider
-   * manually in every page - there is no common `pages/_app.tsx` file anymore
-   */
   return (
-    <EffectorAppNext values={values}>
+    <EffectorNext values={values}>
       <Companies />
-    </EffectorAppNext>
+    </EffectorNext>
   );
 }

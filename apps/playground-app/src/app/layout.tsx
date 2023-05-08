@@ -1,6 +1,6 @@
 import { CounterButton } from "#root/features/layout/ui";
 import Link from "next/link";
-import { EffectorAppNext } from "./effector-provider";
+import { EffectorNext } from "@effector/next";
 import "mvp.css";
 
 export const metadata = {
@@ -18,7 +18,7 @@ export default function RootLayout({
       <body>
         <div>App dir</div>
         <main>
-          <EffectorAppNext>
+          <EffectorNext>
             <nav>
               <ul>
                 <li>
@@ -37,7 +37,7 @@ export default function RootLayout({
               <CounterButton />
             </nav>
             {children}
-          </EffectorAppNext>
+          </EffectorNext>
         </main>
       </body>
     </html>
