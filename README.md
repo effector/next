@@ -207,7 +207,7 @@ Since Redux Dev-Tools are client thing - we need to prepare it as a client compo
 
 ```tsx
 // src/shared/redux-dev-tools-provider.tsx
-'use client';
+"use client";
 
 import { getClientScope } from "@effector/next";
 import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
@@ -222,15 +222,18 @@ if (clientScope) {
    */
   attachReduxDevTools({
     scope: clientScope,
-    name: "playground-app",
+    name: "playground-app-app-router",
     trace: true,
   });
 }
 
-export function ReduxDevToolsAdapter({ children }: { children: React.ReactNode }) {
- return children;
+export function ReduxDevToolsAdapter({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return <>{children}</>;
 }
-
 ```
 
 ##### Add this component to the Root Layout
