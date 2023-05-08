@@ -36,6 +36,7 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 ## App Router
 
 Since Next.js `13.4.0` App Router became stable and recommended way to build Next.js applications.
+
 The `@effector/next` fully supports App Router out of the box.
 
 #### 1. Setup provider in the Root Layout
@@ -194,7 +195,7 @@ At the client you can get current scope via `getClientScope` function, which wil
 
 Here are few examples of `@effector/redux-devtools-adapter` integration.
 
-#### App Router
+#### App Router Dev-Tools example
 
 In case of the App Router dev-tools setup must be placed at the [the Root Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required) - this way dev-tools integration will work for all pages of the app.
 
@@ -229,9 +230,9 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
 }
 ```
 
-#### Pages Router
+#### Pages Router Dev-Tools example
 
-In case of Pages Router dev-tools setup must be placed at the [custom App component file (pages/_app.tsx)](https://nextjs.org/docs/pages/building-your-application/routing/custom-app).
+In case of Pages Router dev-tools setup must be placed at the [custom App component file (pages/\_app.tsx)](https://nextjs.org/docs/pages/building-your-application/routing/custom-app).
 
 ```tsx
 // pages/_app.tsx
@@ -273,6 +274,15 @@ export default App;
 ## Important caveats
 
 There are a few special nuances of Next.js behaviour, that you need to consider.
+
+### Using Pages Router along with App Router
+
+Be aware that Next.js basically builds two different app bundles for Pages and App Router modes.
+
+Transitions between Pages Router and App Router are always performed via full page reload blowing away any client state.
+This is just enough for incremental adoption of App Router, but if you want best experience, you must avoid mixing different Router modes in one app.
+
+New apps should always be started with App Router, as it is the main way to build Next.js applications now.
 
 ### Non-serializable values
 
