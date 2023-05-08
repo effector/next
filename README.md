@@ -188,6 +188,8 @@ It is up to you to pick some prop name to connect server handlers with client pr
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
+Also see the [`nextjs-effector`](https://github.com/risen228/nextjs-effector) package (_yeah, naming of the Next.js-related packages is kind of compicated_), which provides better DX to Pages Router usage and is built on top of the `@effector/next`.
+
 ### Dev-Tools integration
 
 Most of `effector` dev-tools options require direct access to the `scope` of the app.
