@@ -1,7 +1,7 @@
 import { fork, serialize, allSettled } from "effector";
 import { CompanyDetails, companyPage } from "#root/features/companies";
 
-import { EffectorAppNext } from "#root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export default async function CompanyDetailsAppPage({ params }: any) {
   const scope = fork();
@@ -11,8 +11,8 @@ export default async function CompanyDetailsAppPage({ params }: any) {
   const values = serialize(scope);
 
   return (
-    <EffectorAppNext values={values}>
+    <EffectorNext values={values}>
       <CompanyDetails />
-    </EffectorAppNext>
+    </EffectorNext>
   );
 }

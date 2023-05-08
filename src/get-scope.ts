@@ -1,8 +1,8 @@
-import { fork, Scope } from "effector";
+import { fork, type Scope, type createStore, type Json } from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
-export const getScope = isClient ? internalGetClientScope : getServerScope;
+export const getScope = isClient ? INTERNAL_getClientScope : getServerScope;
 
 function getServerScope(values?: Values) {
   return fork({ values });
@@ -36,9 +36,9 @@ let prevValues: Values;
 /**
  * @private
  *
- * exported for tests only
+ * Should not be exported to the public API
  */
-export function internalGetClientScope(values?: Values) {
+function INTERNAL_getClientScope(values?: Values) {
   if (
     !values ||
     /**
@@ -88,12 +88,15 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
          */
         const sid = ref?.meta?.sid;
         if (sid && sid in values) {
-          const serialize = ref?.meta?.serialize;
+          const serialize = ref?.meta?.serialize as StoreSerializationConfig;
           const read =
-            serialize && serialize !== "ingore" ? serialize?.read : null;
-          ref.current = read ? read(values[sid]) : values[sid];
+            serialize && serialize !== "ignore" ? serialize?.read : null;
+          ref.current = read ? read(values[sid] as Json) : values[sid];
         }
       }
     }
   }
 }
+
+// types for convenience
+type StoreSerializationConfig = Exclude<Parameters<typeof createStore>[1], undefined>["serialize"];

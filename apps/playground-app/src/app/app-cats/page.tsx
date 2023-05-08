@@ -1,7 +1,7 @@
 import { fork, serialize, allSettled } from "effector";
 import { Cats, catsListPage } from "#root/features/cats";
 
-import { EffectorAppNext } from "#root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export const revalidate = 10;
 
@@ -13,8 +13,8 @@ export default async function CatsListAppPage() {
   const values = serialize(scope);
 
   return (
-    <EffectorAppNext values={values}>
+    <EffectorNext values={values}>
       <Cats />
-    </EffectorAppNext>
+    </EffectorNext>
   );
 }
