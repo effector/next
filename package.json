@@ -23,7 +23,8 @@
     "test": "vitest run",
     "build:code": "vite build",
     "build:types": "tsc",
-    "build": "pnpm build:code && pnpm build:types"
+    "build:directive": "node ./scripts/inject-use-client.mjs",
+    "build": "pnpm build:code && pnpm build:types && pnpm build:directive"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -35,7 +36,8 @@
     "react": "^18.2.0",
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
-    "vitest": "^0.29.8"
+    "vitest": "^0.29.8",
+    "zx": "^7.2.2"
   },
   "peerDependencies": {
     "effector": "^22.8.1",
