@@ -1,4 +1,4 @@
-import { fork, Scope } from "effector";
+import { fork, type Scope, type createStore, type Json } from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
@@ -88,12 +88,15 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
          */
         const sid = ref?.meta?.sid;
         if (sid && sid in values) {
-          const serialize = ref?.meta?.serialize;
+          const serialize = ref?.meta?.serialize as StoreSerializationConfig;
           const read =
-            serialize && serialize !== "ingore" ? serialize?.read : null;
-          ref.current = read ? read(values[sid]) : values[sid];
+            serialize && serialize !== "ignore" ? serialize?.read : null;
+          ref.current = read ? read(values[sid] as Json) : values[sid];
         }
       }
     }
   }
 }
+
+// types for convenience
+type StoreSerializationConfig = Exclude<Parameters<typeof createStore>[1], undefined>["serialize"];
