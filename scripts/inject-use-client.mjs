@@ -13,7 +13,7 @@ const indexFilePaths = Object.values(pkgJson.exports["."]).map((path) =>
 for (const path of indexFilePaths) {
   console.log(chalk.blue(`Injecting ${DIRECTIVE} into ${path}`));
   await injectUseClient(path);
-  console.log(chalk.green(`Injected ${DIRECTIVE} into ${path}`));
+  console.log(chalk.green(`Injected ✅`));
 }
 
 async function injectUseClient(path) {
