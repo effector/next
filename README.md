@@ -89,65 +89,36 @@ You're all set. Just use effector's units anywhere in components code via `useUn
 
 ## App directory
 
-#### 1. Setup EffectorNext provider as Client Component
+#### 1. Setup provider in the Root Layout
 
-New `app` directory considers all components as Server Components by default.
+To use client components with effector units anywhere in the tree - add `EffectorNext` provider at your [Root Layout](https://beta.nextjs.org/docs/routing/pages-and-layouts#root-layout-required)
 
-Because of that `EffectorNext` provider won't work as it is, as it uses client-only `createContext` API internally - you will get a compile error in Next.js
-
-The official way to handle this - [is to re-export such components as modules with "use client" directive](https://beta.nextjs.org/docs/rendering/server-and-client-components#third-party-packages).
-
-To do so, create `effector-provider.tsx` file at the top level of your `app` directory and copy-paste following code from snippet there:
-
-```tsx
-// app/effector-provider.tsx
-"use client";
-
-import type { ComponentProps } from "react";
-import { EffectorNext } from "@effector/next";
-
-export function EffectorAppNext({
-  values,
-  children,
-}: ComponentProps<typeof EffectorNext>) {
-  return <EffectorNext values={values}>{children}</EffectorNext>;
-}
-```
-
-You should use **this** version of provider in the `app` directory from now on.
-
-We will bundle the package using the `"use client"` directive once Server-Components are out of React Canary and there is more information about directive usage.
-
-#### 2. Setup provider in the Root Layout
-
-To use client components with effector units anywhere in the tree - add `EffectorAppNext` provider (which was created at previous step) at your [Root Layout](https://beta.nextjs.org/docs/routing/pages-and-layouts#root-layout-required)
-
-If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/defining-routes#example-creating-multiple-root-layouts) - each one of them should also have the `EffectorAppNext` provider.
+If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/defining-routes#example-creating-multiple-root-layouts) - each one of them should also have the `EffectorNext` provider.
 
 ```tsx
 // app/layout.tsx
-import { EffectorAppNext } from "project-root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <EffectorAppNext>{/* rest of the components tree */}</EffectorAppNext>
+        <EffectorNext>{/* rest of the components tree */}</EffectorNext>
       </body>
     </html>
   );
 }
 ```
 
-#### 3. Server-side computations
+#### 2. Server-side computations
 
 Server computations work in a similiar way to `pages` directory, but inside Server Components of the `app` pages.
 
-In this case you will need to add the `EffectorAppNext` provider to the tree of this Server Component and provide it with serialized scope.
+In this case you will need to add the `EffectorNext` provider to the tree of this Server Component and provide it with serialized scope.
 
 ```tsx
 // app/some-path/page.tsx
-import { EffectorAppNext } from "project-root/app/effector-provider";
+import { EffectorNext } from "@effector/next";
 
 export default async function Page() {
   const scope = fork();
@@ -157,14 +128,14 @@ export default async function Page() {
   const values = serialize(scope);
 
   return (
-    <EffectorAppNext values={values}>
+    <EffectorNext values={values}>
       {/* rest of the components tree */}
-    </EffectorAppNext>
+    </EffectorNext>
   );
 }
 ```
 
-This will automatically render this subtree with effector's state and also will automatically "hydrate" client scope with new values.
+This will automatically render this subtree with effector's state and also will automatically "hydrate" client scope with new values, once this update is rendered in the browser.
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
