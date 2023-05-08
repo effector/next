@@ -2,9 +2,6 @@
 
 This is minimal compatibility layer for effector + Next.js - it only provides one special `EffectorNext` provider component, which allows to fully leverage effector's Fork API, while handling some _special_ parts of Next.js SSR and SSG flow.
 
-So far there are no plans to extend the API, e.g., towards better DX - there are already packages like [`nextjs-effector`](https://github.com/risenforces/nextjs-effector).
-This package aims only at technical nuances.
-
 ## Installation
 
 ```bash
@@ -36,64 +33,16 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 [Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
-### Pages directory
+## App Router
 
-#### 1. EffectorNext provider setup
-
-Add provider to the `pages/_app.tsx` and provide it with server-side `values`
-
-```tsx
-import { EffectorNext } from "@effector/next";
-
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <main>
-      <EffectorNext values={pageProps.values}>
-        <Layout>
-          <Component />
-        </Layout>
-      </EffectorNext>
-    </main>
-  );
-}
-```
-
-Notice, that `EffectorNext` should get serialized scope values via props.
-
-#### 2. Server-side computations
-
-Start your computations in server handlers using Fork API
-
-```ts
-import { fork, allSettled, serialize } from "effector";
-
-import { pageStarted } from "../src/my-page-model";
-
-export async function getStaticProps() {
-  const scope = fork();
-
-  await allSettled(pageStarted, { scope, params });
-
-  return {
-    props: {
-      // notice serialized effector's scope here!
-      values: serialize(scope),
-    },
-  };
-}
-```
-
-Notice, that serialized scope values are provided via the same page prop, which is used in the `_app` for values in `EffectorNext`.
-
-You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
-
-## App directory
+Since Next.js `13.4.0` App Router became stable and recommended way to build Next.js applications.
+The `@effector/next` fully supports App Router out of the box.
 
 #### 1. Setup provider in the Root Layout
 
-To use client components with effector units anywhere in the tree - add `EffectorNext` provider at your [Root Layout](https://beta.nextjs.org/docs/routing/pages-and-layouts#root-layout-required)
+To use client components with effector units anywhere in the tree - add `EffectorNext` provider at your [Root Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required)
 
-If you are using [multiple Root Layouts](https://beta.nextjs.org/docs/routing/defining-routes#example-creating-multiple-root-layouts) - each one of them should also have the `EffectorNext` provider.
+If you are using [multiple Root Layouts](https://nextjs.org/docs/app/building-your-application/routing/route-groups#creating-multiple-root-layouts) - each one of them should also have the `EffectorNext` provider.
 
 ```tsx
 // app/layout.tsx
@@ -137,6 +86,105 @@ export default async function Page() {
 
 This will automatically render this subtree with effector's state and also will automatically "hydrate" client scope with new values, once this update is rendered in the browser.
 
+#### 3. Next.js API's usage
+
+Start your computations via Fork API and use `scope.getState` to extract data from stores and provide it to the Next.js API's like [`generateStaticParams`](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)
+
+**`generateStaticParams` example**
+
+```tsx
+// app/blog/[slug]/page.tsx
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const scope = fork();
+
+  await allSettled(blogPostsStarted, { scope });
+
+  const posts = scope.getState($postsList); // { name: string; id: string; }[]
+
+  // map to match `[slug]` param naming
+  return posts.map(({ id }) => ({ slug: id }));
+}
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+
+  const scope = fork();
+
+  await allSettled(blogPostOpened, { scope, params: { id: slug } });
+
+  const values = serialize(scope);
+
+  return (
+    <EffectorNext values={values}>
+      {/* rest of the components tree */}
+    </EffectorNext>
+  );
+}
+```
+
+That's it.
+Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - and don't forget about `use client` for client components.
+
+### Pages Router
+
+Before Next.js `13.4.0` Pages router was the main way to build Next.js applications. Despite being kind of "soft deprecated" Pages mode [will be supported for multiple Next.js major updates](https://nextjs.org/blog/next-13-4#is-the-pages-router-going-away).
+
+The `@effector/next` fully supports Pages Router out of the box.
+
+#### 1. EffectorNext provider setup
+
+Add provider to the `pages/_app.tsx` and provide it with server-side `values`
+
+```tsx
+import { EffectorNext } from "@effector/next";
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <main>
+      <EffectorNext values={pageProps.values}>
+        <Layout>
+          <Component />
+        </Layout>
+      </EffectorNext>
+    </main>
+  );
+}
+```
+
+Notice, that `EffectorNext` should get serialized scope values via props.
+
+#### 2. Server-side computations
+
+Start your computations in server handlers using Fork API. Workflow is the same for all server-side functions of Next.js.
+
+**`getStaticProps` example**
+
+```ts
+import { fork, allSettled, serialize } from "effector";
+
+import { pageStarted } from "../src/my-page-model";
+
+export async function getStaticProps() {
+  const scope = fork();
+
+  await allSettled(pageStarted, { scope, params });
+
+  return {
+    props: {
+      // notice serialized effector's scope here!
+      values: serialize(scope),
+    },
+  };
+}
+```
+
+Notice, that serialized scope values are provided via the same `values` prop, which is used in the `_app.tsx` for providing values to `EffectorNext`.
+It is up to you to pick some prop name to connect server handlers with client prop in `_app.tsx`.
+
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
 ### Dev-Tools integration
@@ -144,9 +192,49 @@ You're all set. Just use effector's units anywhere in components code via `useUn
 Most of `effector` dev-tools options require direct access to the `scope` of the app.
 At the client you can get current scope via `getClientScope` function, which will return `Scope` in the browser and `null` at the server.
 
-Example of `@effector/redux-devtools-adapter` integration
+Here are few examples of `@effector/redux-devtools-adapter` integration.
+
+#### App Router
+
+In case of the App Router dev-tools setup must be placed at the [the Root Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required) - this way dev-tools integration will work for all pages of the app.
 
 ```tsx
+// app/layout.tsx
+import { EffectorNext, getClientScope } from "@effector/next";
+import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
+
+const clientScope = getClientScope();
+
+if (clientScope) {
+  /**
+   * Notice, that we need to check for the client scope first
+   *
+   * It will be `null` at the server
+   */
+  attachReduxDevTools({
+    scope: clientScope,
+    name: "playground-app",
+    trace: true,
+  });
+}
+
+export function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <EffectorNext>{/* rest of the components tree */}</EffectorNext>
+      </body>
+    </html>
+  );
+}
+```
+
+#### Pages Router
+
+In case of Pages Router dev-tools setup must be placed at the [custom App component file (pages/_app.tsx)](https://nextjs.org/docs/pages/building-your-application/routing/custom-app).
+
+```tsx
+// pages/_app.tsx
 import type { AppProps } from "next/app";
 import { EffectorNext, getClientScope } from "@effector/next";
 import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
