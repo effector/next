@@ -2,7 +2,7 @@ import { fork, type Scope, type createStore, type Json } from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
-export const getScope = isClient ? internalGetClientScope : getServerScope;
+export const getScope = isClient ? INTERNAL_getClientScope : getServerScope;
 
 function getServerScope(values?: Values) {
   return fork({ values });
@@ -36,9 +36,9 @@ let prevValues: Values;
 /**
  * @private
  *
- * exported for tests only
+ * Should not be exported to the public API
  */
-export function internalGetClientScope(values?: Values) {
+function INTERNAL_getClientScope(values?: Values) {
   if (
     !values ||
     /**
