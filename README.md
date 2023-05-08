@@ -33,7 +33,7 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 [Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
-## App Router
+## [App Router](https://nextjs.org/docs/app/building-your-application/routing) usage
 
 Since Next.js `13.4.0` App Router became stable and recommended way to build Next.js applications.
 
@@ -130,7 +130,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 That's it.
 Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - and don't forget about `use client` for client components.
 
-### Pages Router
+### [Pages Router](https://nextjs.org/docs/pages/building-your-application/routing) usage
 
 Before Next.js `13.4.0` Pages router was the main way to build Next.js applications. Despite being kind of "soft deprecated" Pages mode [will be supported for multiple Next.js major updates](https://nextjs.org/blog/next-13-4#is-the-pages-router-going-away).
 
