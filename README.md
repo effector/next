@@ -201,9 +201,15 @@ Here are few examples of `@effector/redux-devtools-adapter` integration.
 
 In case of the App Router dev-tools setup must be placed at the [the Root Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required) - this way dev-tools integration will work for all pages of the app.
 
+##### Create client component
+
+Since Redux Dev-Tools are client thing - we need to prepare it as a client component.
+
 ```tsx
-// app/layout.tsx
-import { EffectorNext, getClientScope } from "@effector/next";
+// src/shared/redux-dev-tools-provider.tsx
+'use client';
+
+import { getClientScope } from "@effector/next";
 import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
 
 const clientScope = getClientScope();
@@ -221,11 +227,26 @@ if (clientScope) {
   });
 }
 
+export function ReduxDevToolsAdapter({ children }: { children: React.ReactNode }) {
+ return children;
+}
+
+```
+
+##### Add this component to the Root Layout
+
+```tsx
+// app/layout.tsx
+import { EffectorNext } from "@effector/next";
+
+import { ReduxDevToolsAdapter } from "app-root/shared/redux-dev-tools-provider"
+
 export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <EffectorNext>{/* rest of the components tree */}</EffectorNext>
+        <ReduxDevToolsAdapter />
+        <EffectorNext>{children}</EffectorNext>
       </body>
     </html>
   );
