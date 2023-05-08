@@ -215,78 +215,16 @@ export default App;
 
 There are a few special nuances of Next.js behaviour, that you need to consider.
 
-### Effector's `serialize: "ignore"` is not recommended
+### Non-serializable values
 
-Effector's `createStore` has `serialize` setting, which allows you to either setup custom rule for store's value serialization or mark it as `ignore` to completely strip this value from serialization.
+If you have Effector stores that contain values that cannot be safely passed to `JSON.stringify`, you will have problems passing the values to the client.
 
-Normally in typical SSR application you could use it to calculate some server-only value at the server, use it for render, and then just ignore it when serializing.
+In that case, you have to specify a custom serialization rule through the store settings.
 
-```tsx
-// typical custom ssr example
-// some-module.ts
-export const $serverOnlyValue = createStore(null, { serialize: "ignore" });
+#### Example
 
-// request handler
-
-export async function renderApp(req) {
-  const scope = fork();
-
-  await allSettled(appStarted, { scope, params: req });
-
-  // serialization boundaries
-  const appContent = renderToString(
-    // scope object can be used for the render directly
-    <Provider value={scope}>
-      <App />
-    </Provider>
-  );
-  const stateScript = `<script>self.__STATE__ = ${serialize(scope)}</script>`; // does not contain value of `$serverOnlyValue`
-
-  return htmlResponse(appContent, stateScript);
-}
-```
-
-But with Next.js serialization boundary happens much earlier, before server renders even started.
-
-It happens because of unique Next.js features like running page logic only at server even for client transitions.
-
-This feature requires, that response of every server data-fetching function is serializable to json string.
-
-That means, that using `serialize: "ignore"` will just hide this store value from server render too.
-
-```tsx
-// some-module.ts
-export const $serverOnlyValue = createStore(null, { serialize: "ignore" })
-
-// some-component
-
-export function Component() {
- const value = useUnit($serverOnlyValue)
-
- return value ? <>{value}<> : <>No value</>
-}
-
-// pages/some-page
-export async function getServerSideProps(req) {
- const scope = fork()
-
-  await allSettled(appStarted, { scope, params: req })
-
-  // scope.getState($serverOnlyValue) is not null at this point
-
-  return {
-   props: {
-    values: serialize(scope)
-    // scope.getState($serverOnlyValue) is stripped off here :(
-    // Component will always render "No value"
-   }
-  }
-}
-```
-
-Because of that it is not recommended to use `serialize: "ignore"` if the store is somehow needed for render.
-
-You can use custom serialization config instead
+`Date` object will be serialized to ISO-string by default, but will not be parsed back to `Date` object via `JSON.parse`.
+We can fix it by providing custom serialization rule.
 
 ```ts
 const $date = createStore<null | Date>(null, {
@@ -298,7 +236,101 @@ const $date = createStore<null | Date>(null, {
 });
 ```
 
-[Docs](https://effector.dev/docs/api/effector/createStore#example-with-custom-serialize-configuration)
+[Docs about custom serialize feature](https://effector.dev/docs/api/effector/createStore#example-with-custom-serialize-configuration)
+
+### Effector's `serialize: "ignore"` is not recommended
+
+Next.js network (and serialization) boundary is placed before any client components rendering, so any stores with `serialize: "ignore"` setting will always use default values for renders, which may lead to confusing results.
+
+#### Example
+
+```tsx
+// some-module.ts
+const $serverOnlyValue = createStore(null, { serialize: "ignore" })
+
+// $someValue is a derived store - such stores are never included in effector's serialization,
+// because it is always possible to safely recalculate them from parent stores
+//
+// But in this case, combined with `serialize: "ignore"` on parent store, it will lead to confusing result
+export const $someValue = $serverOnlyValue.map(value => value ? extractSomeSafeForClientData(value) : null)
+
+// some-component
+
+export function Component() {
+ const value = useUnit($someValue)
+
+ return value ? <>{value}<> : <>No value</>
+}
+
+// pages/some-page
+export async function getServerSideProps(req) {
+ const scope = fork()
+
+  await allSettled(appStarted, { scope, params: req })
+
+  // `scope.getState($serverOnlyValue)` is not null at this point
+  // as well as `scope.getState($someValue)` is correctly calculated here
+
+  // Next.js network boundary happens here and is separated from rendering components at the server
+  return {
+   props: {
+    values: serialize(scope)
+    // `scope.getState($serverOnlyValue)` is stripped off here, it's value will be default one :(
+    // And `$someValue` is also calculated as if `$serverOnlyValue` is still null
+    //
+    // As a result - `Component` will always render "No value"
+   }
+  }
+}
+```
+
+#### Workaround
+
+You can workaround it by using another non-derived store, which will be included in effector's serialization.
+
+```tsx
+// some-module.ts
+const $serverOnlyValue = createStore(null, { serialize: "ignore" })
+
+// $someValue is non-derived and will be included in serialization, if changed
+export const $someValue = createStore(null)
+
+sample({
+ clock: $serverOnlyValue,
+ fn: value => value ? extractSomeSafeForClientData(value) : null,
+ target: $someValue,
+})
+
+// some-component
+
+export function Component() {
+ const value = useUnit($someValue)
+
+ return value ? <>{value}<> : <>No value</>
+}
+
+// pages/some-page
+export async function getServerSideProps(req) {
+ const scope = fork()
+
+  await allSettled(appStarted, { scope, params: req })
+
+  // `scope.getState($serverOnlyValue)` is not null at this point
+  // as well as `scope.getState($someValue)` is correctly calculated here
+
+  // Next.js network boundary happens here and is separated from rendering components at the server
+  return {
+   props: {
+    values: serialize(scope)
+    // `scope.getState($serverOnlyValue)` is stripped off here, it's value will be default one :(
+    // But since `$someValue` is also non-derived store and it was changed on `$serverOnlyValue` update
+    // it will be included in `values`
+    //
+    // As a result - `Component` will render `value` properly
+   }
+  }
+}
+```
 
 ### ESM dependencies and library duplicates in the bundle
 
