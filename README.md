@@ -305,8 +305,8 @@ There are a few special nuances of Next.js behaviour, that you need to consider.
 
 Be aware that Next.js basically builds two different app bundles for Pages and App Router modes.
 
-Transitions between Pages Router and App Router are always performed via full page reload blowing away any client state.
-This is just enough for incremental adoption of App Router, but if you want best experience, you must avoid mixing different Router modes in one app.
+Transitions between pages of `Pages Router` and `App Router` are always performed via full page reload blowing away any client state.
+This is enough for gradual `App Router` adoption, but if you want the best experience, you should avoid mixing different Router modes in the same application. Pages that users frequently transition between should ideally move to `App Router` together.
 
 New apps should always be started with App Router, as it is the main way to build Next.js applications now.
 
