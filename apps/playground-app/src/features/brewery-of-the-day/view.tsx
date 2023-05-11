@@ -1,3 +1,5 @@
+"use client"
+
 import { reflect, variant } from "@effector/reflect";
 import { BreweryCard, Loader } from "#root/shared/ui";
 
