@@ -9,6 +9,10 @@ const links = [
     name: "Brewery of the day (GIP)",
     href: "/brewery-of-the-day-gip",
   },
+  {
+    name: "Brewery of the day (RSC)",
+    href: "/brewery-of-the-day-app",
+  },
 ];
 
 export function PageLayout(props: React.PropsWithChildren<{}>) {
