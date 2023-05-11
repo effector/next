@@ -1,0 +1,12 @@
+body {
+    --color-bg: #EDE7D9;
+    --color-link: #4B4237;
+    --color-text: #4B4237;
+    --color-shadow: #736B60;
+    --color-bg-secondary: #4B4237;
+}
+
+aside {
+    background: #EFECE3;
+    border: 3px solid #D5A021 !important;
+}

@@ -2,6 +2,7 @@ import { PageLayout } from "#root/features/layout";
 import Link from "next/link";
 import { EffectorNext } from "@effector/next";
 import "mvp.css";
+import "../overrides.css";
 
 import { ReduxDevToolsAdapter } from "#root/shared/redux-dev-tools-provider";
 

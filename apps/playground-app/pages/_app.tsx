@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { EffectorNext, getClientScope } from "@effector/next";
 import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
 import "mvp.css";
+import "../overrides.css";
 import { PageLayout } from "#root/features/layout";
 
 const clientScope = getClientScope();
