@@ -18,14 +18,14 @@ const links = [
 export function PageLayout(props: React.PropsWithChildren<{}>) {
   return (
     <>
-      <header>
+      <header style={{ paddingBottom: 0 }}>
         <div>
           <h1>
             <Link href="/">Breweries playground app</Link>
           </h1>
           <small>Playground app to research Next.js + Effector</small>
         </div>
-        <nav>
+        <nav style={{ marginBottom: 0 }}>
           <ul>
             {links.map((link) => (
               <li key={link.href}>
