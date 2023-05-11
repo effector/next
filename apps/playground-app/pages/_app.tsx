@@ -2,8 +2,7 @@ import type { AppProps } from "next/app";
 import { EffectorNext, getClientScope } from "@effector/next";
 import { attachReduxDevTools } from "@effector/redux-devtools-adapter";
 import "mvp.css";
-
-import { Layout } from "#root/features/layout/ui";
+import { PageLayout } from "#root/features/layout";
 
 const clientScope = getClientScope();
 
@@ -29,10 +28,9 @@ function App({
 
   return (
     <EffectorNext values={values}>
-      <div>Pages dir</div>
-      <Layout>
+      <PageLayout>
         <Component />
-      </Layout>
+      </PageLayout>
     </EffectorNext>
   );
 }

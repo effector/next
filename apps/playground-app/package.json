@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm run mocks && pnpm run use-local-lib && next dev",
-    "build": "pnpm run mocks && pnpm run use-local-lib && next build",
+    "dev": "pnpm run use-local-lib && next dev",
+    "build": "pnpm run use-local-lib && next build",
     "start": "next start",
     "lint": "next lint",
-    "use-local-lib": "node use-local.mjs",
-    "mocks": "node generate-mock-data.mjs"
+    "use-local-lib": "node use-local.mjs"
   },
   "dependencies": {
     "@effector/next": "^0.3.0",

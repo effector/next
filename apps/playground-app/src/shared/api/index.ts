@@ -5,6 +5,9 @@ import { createStore } from "effector";
 
 const $apiBase = createStore("https://api.openbrewerydb.org/v1/breweries");
 
+const BEER_PIC =
+  "https://s.yimg.com/ny/api/res/1.2/uLAB.Akslx9DdgwD4fNKqQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en-US/homerun/food_wine_804/a5a30da634b1c24048f8e1dfced2b915";
+
 const BreweryTypeContract = t.Union(
   t.Literal("micro"),
   t.Literal("nano"),
@@ -37,7 +40,7 @@ const BreweryContract = t.Record({
   street: t.String.nullable(),
 });
 
-export type BreweryType = t.Static<typeof BreweryTypeContract>;
+export type Brewery = t.Static<typeof BreweryContract>;
 
 export const getBreweriesQuery = createJsonQuery({
   name: "getBreweries",
@@ -51,6 +54,8 @@ export const getBreweriesQuery = createJsonQuery({
   },
   response: {
     contract: runtypeContract(t.Array(BreweryContract)),
+    mapData: ({ result }) =>
+      result.map((brewery) => ({ ...brewery, image: BEER_PIC })),
   },
 });
 
@@ -66,20 +71,25 @@ export const getSingleBreweryQuery = createJsonQuery({
   },
   response: {
     contract: runtypeContract(BreweryContract),
+    mapData: ({ result }) => ({
+      ...result,
+      image: BEER_PIC,
+    }),
   },
 });
 
 export const getBreweryOfTheDayQuery = createJsonQuery({
   name: "getBreweryOfTheDay",
-  params: declareParams<{ id: string }>(),
   request: {
     method: "GET",
     url: {
       source: $apiBase,
-      fn: (params, base) => `${base}/${params.id}`,
+      fn: (_params, base) => `${base}/random`,
     },
   },
   response: {
-    contract: runtypeContract(BreweryContract),
+    contract: runtypeContract(t.Array(BreweryContract)),
+    mapData: ({ result }) =>
+      result.map((brewery) => ({ ...brewery, image: BEER_PIC }))[0],
   },
 });
