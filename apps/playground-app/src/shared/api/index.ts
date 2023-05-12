@@ -40,7 +40,7 @@ const BreweryContract = t.Record({
   street: t.String.nullable(),
 });
 
-export type Brewery = t.Static<typeof BreweryContract>;
+export type Brewery = t.Static<typeof BreweryContract> & { image: string };
 
 export const getBreweriesQuery = createJsonQuery({
   name: "getBreweries",
@@ -49,7 +49,7 @@ export const getBreweriesQuery = createJsonQuery({
     method: "GET",
     url: $apiBase,
     query: (params) => ({
-      per_page: params?.page ?? 1,
+      page: params?.page ?? 1,
     }),
   },
   response: {

@@ -3,9 +3,11 @@ import type { Brewery } from "../api";
 import Link from "next/link";
 
 export function BreweryCard(
-  props: Pick<Brewery, "name" | "brewery_type" | "website_url"> & {
-    image?: string;
-  }
+  props: React.PropsWithChildren<
+    Pick<Brewery, "name" | "brewery_type" | "website_url"> & {
+      image?: string;
+    }
+  >
 ) {
   return (
     <aside>
@@ -17,6 +19,7 @@ export function BreweryCard(
         ) : null}
       </div>
       {props.website_url && <Link href={props.website_url}>Website</Link>}
+      {props.children}
     </aside>
   );
 }

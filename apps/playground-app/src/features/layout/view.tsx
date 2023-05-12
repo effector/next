@@ -1,4 +1,4 @@
-import { Link } from "#root/shared/ui";
+import Link from "next/link";
 
 import { AsyncCounter } from "#root/features/async-counter";
 
@@ -15,6 +15,8 @@ const links = [
     name: "Brewery of the day (RSC)",
     href: "/brewery-of-the-day-app",
   },
+  { name: "Breweries (getStaticProps)", href: "/breweries-pages" },
+  { name: "Breweries (App Mode)", href: "/breweries" },
 ];
 
 export function PageLayout(props: React.PropsWithChildren<{}>) {
