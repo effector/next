@@ -1,26 +1,19 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 
-const pageTypes = [
-  "companies",
-  "company",
-  "cats",
-  "cat",
-  "productsList",
-  "product",
-] as const;
+const pageTypes = ["breweryOfTheDay", "breweries", "brewery"] as const;
 
 export const pageStarted = createEvent<{
-  pageType: typeof pageTypes[number];
+  pageType: (typeof pageTypes)[number];
   pageCtx: unknown;
 }>();
 
-const $currentPage = createStore<typeof pageTypes[number] | null>(null).on(
+const $currentPage = createStore<(typeof pageTypes)[number] | null>(null).on(
   pageStarted,
   (_, { pageType }) => pageType
 );
 
 export function declarePage<Ctx = void>(config: {
-  pageType: typeof pageTypes[number];
+  pageType: (typeof pageTypes)[number];
   contextContract?: {
     isData: (data: unknown) => data is Ctx;
   };

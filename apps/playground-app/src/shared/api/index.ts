@@ -1,107 +1,95 @@
-import { createQuery } from "@farfetched/core";
-import { createEffect } from "effector";
+import { createJsonQuery, declareParams } from "@farfetched/core";
 import * as t from "runtypes";
 import { runtypeContract } from "@farfetched/runtypes";
-import { faker } from "@faker-js/faker";
+import { createStore } from "effector";
 
-/**
- * In real life this would be createJsonQuery to real API
- *
- * Read more
- * https://farfetched.pages.dev/tutorial/built_in_query_factories.html#json-api
- */
-export const companiesQuery = createQuery({
-  name: "getCompanies",
-  effect: createEffect(async () => {
-    return fakeCompanies;
-  }),
-  contract: runtypeContract(
-    t.Array(
-      t.Record({
-        id: t.String,
-        name: t.String,
-        imageLink: t.String,
-        description: t.String,
-      })
-    )
-  ),
+const $apiBase = createStore("https://api.openbrewerydb.org/v1/breweries");
+
+const BEER_PIC =
+  "https://s.yimg.com/ny/api/res/1.2/uLAB.Akslx9DdgwD4fNKqQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en-US/homerun/food_wine_804/a5a30da634b1c24048f8e1dfced2b915";
+
+const BreweryTypeContract = t.Union(
+  t.Literal("micro"),
+  t.Literal("nano"),
+  t.Literal("regional"),
+  t.Literal("brewpub"),
+  t.Literal("large"),
+  t.Literal("planning"),
+  t.Literal("bar"),
+  t.Literal("contract"),
+  t.Literal("proprietor"),
+  t.Literal("closed")
+);
+
+const BreweryContract = t.Record({
+  id: t.String,
+  name: t.String,
+  brewery_type: BreweryTypeContract,
+  address_1: t.String.nullable(),
+  address_2: t.String.nullable(),
+  address_3: t.String.nullable(),
+  city: t.String.nullable(),
+  state_province: t.String.nullable(),
+  postal_code: t.String.nullable(),
+  country: t.String.nullable(),
+  longitude: t.String.nullable(),
+  latitude: t.String.nullable(),
+  phone: t.String.nullable(),
+  website_url: t.String.nullable(),
+  state: t.String.nullable(),
+  street: t.String.nullable(),
 });
-const fakeCompanies = list(() => ({
-  id: faker.datatype.uuid(),
-  name: faker.company.name(),
-  imageLink: faker.image.business(250, 250, true),
-  description: faker.company.bs(),
-}));
 
-export const catsQuery = createQuery({
-  name: "getCats",
-  effect: createEffect(async () => fakeCats),
-  contract: runtypeContract(
-    t.Array(
-      t.Record({
-        kind: t.String,
-        imageLink: t.String,
-        description: t.String,
-      })
-    )
-  ),
+export type Brewery = t.Static<typeof BreweryContract> & { image: string };
+
+export const getBreweriesQuery = createJsonQuery({
+  name: "getBreweries",
+  params: declareParams<{ page: number } | void>(),
+  request: {
+    method: "GET",
+    url: $apiBase,
+    query: (params) => ({
+      page: params?.page ?? 1,
+    }),
+  },
+  response: {
+    contract: runtypeContract(t.Array(BreweryContract)),
+    mapData: ({ result }) =>
+      result.map((brewery) => ({ ...brewery, image: BEER_PIC })),
+  },
 });
-export const getCatQuery = createQuery({
-  name: "getCat",
-  effect: createEffect(
-    async (kind: string) => fakeCats.find((c) => c.kind === kind) ?? null
-  ),
-  contract: runtypeContract(
-    t.Record({
-      kind: t.String,
-      imageLink: t.String,
-      description: t.String,
-    })
-  ),
+
+export const getSingleBreweryQuery = createJsonQuery({
+  name: "getSingleBrewery",
+  params: declareParams<{ id: string }>(),
+  request: {
+    method: "GET",
+    url: {
+      source: $apiBase,
+      fn: (params, base) => `${base}/${params.id}`,
+    },
+  },
+  response: {
+    contract: runtypeContract(BreweryContract),
+    mapData: ({ result }) => ({
+      ...result,
+      image: BEER_PIC,
+    }),
+  },
 });
-const getFakeCat = () => ({
-  kind: faker.animal.cat(),
-  imageLink: faker.image.cats(250, 250, true),
-  description: faker.lorem.sentence(),
+
+export const getBreweryOfTheDayQuery = createJsonQuery({
+  name: "getBreweryOfTheDay",
+  request: {
+    method: "GET",
+    url: {
+      source: $apiBase,
+      fn: (_params, base) => `${base}/random`,
+    },
+  },
+  response: {
+    contract: runtypeContract(t.Array(BreweryContract)),
+    mapData: ({ result }) =>
+      result.map((brewery) => ({ ...brewery, image: BEER_PIC }))[0],
+  },
 });
-const fakeCats = list(getFakeCat);
-
-export const productsQuery = createQuery({
-  name: "getProducts",
-  initialData: [],
-  effect: createEffect(async () => fakeProducts),
-  contract: runtypeContract(
-    t.Array(
-      t.Record({
-        id: t.String,
-        name: t.String,
-        imageLink: t.String,
-        description: t.String,
-        price: t.String,
-        category: t.String,
-      })
-    )
-  ),
-});
-const getFakeProduct = () => ({
-  id: faker.datatype.uuid(),
-  name: faker.commerce.productName(),
-  imageLink: faker.image.food(250, 250, true),
-  description: faker.commerce.productDescription(),
-  price: faker.commerce.price(100, 200, 0, "$"),
-  category: faker.commerce.department(),
-});
-const fakeProducts = list(getFakeProduct);
-
-// utils
-function list<T>(cb: () => T): T[] {
-  const count = Math.ceil(Math.random() * 10);
-
-  const result = [];
-
-  for (let i = 0; i < count + 1; i++) {
-    result.push(cb());
-  }
-
-  return result;
-}

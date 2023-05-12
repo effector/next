@@ -1,0 +1,22 @@
+body {
+  --color-bg: #ede7d9;
+  --color-link: #4b4237;
+  --color-text: #4b4237;
+  --color-shadow: #736b60;
+  --color-bg-secondary: #4b4237;
+}
+
+aside {
+  background: #efece3;
+  border: 3px solid #d5a021 !important;
+}
+
+aside img {
+  max-height: 300px;
+  object-fit: cover;
+}
+
+button {
+  --color-link: #d5a021;
+  color: var(--color-text);
+}
