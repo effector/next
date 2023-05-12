@@ -12,7 +12,6 @@ export default async function Page() {
 
   await allSettled(breweryOfTheDayPage.open, { scope });
 
-  console.log($breweryOfTheDay)
   if (!scope.getState($breweryOfTheDay)) {
     notFound();
   }

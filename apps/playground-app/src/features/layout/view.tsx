@@ -1,5 +1,7 @@
 import { Link } from "#root/shared/ui";
 
+import { AsyncCounter } from "#root/features/async-counter";
+
 const links = [
   {
     name: "Brewery of the day (gSSP)",
@@ -25,6 +27,7 @@ export function PageLayout(props: React.PropsWithChildren<{}>) {
           </h1>
           <small>Playground app to research Next.js + Effector</small>
         </div>
+        <AsyncCounter />
         <nav style={{ marginBottom: 0 }}>
           <ul>
             {links.map((link) => (

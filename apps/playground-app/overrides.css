@@ -15,3 +15,8 @@ aside img {
   max-height: 300px;
   object-fit: cover;
 }
+
+button {
+  --color-link: #d5a021;
+  color: var(--color-text);
+}
