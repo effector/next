@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Brewery } from "../api";
-import { Link } from "./base";
+import Link from "next/link";
 
 export function BreweryCard(
   props: Pick<Brewery, "name" | "brewery_type" | "website_url"> & {
