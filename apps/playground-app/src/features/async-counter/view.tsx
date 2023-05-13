@@ -12,7 +12,7 @@ export function AsyncCounter() {
   });
 
   return (
-    <Button onClick={click}>
+    <Button onClick={() => click()}>
       Count: {counter} ({ticking ? "ticking" : "idle"})
     </Button>
   );
