@@ -91,6 +91,8 @@ This will automatically render this subtree with effector's state and also will 
 
 Start your computations via Fork API and use `scope.getState` to extract data from stores and provide it to the Next.js API's like [`generateStaticParams`](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)
 
+It should be noted, that `getState` usage is typically undesirable in production code - except for the cases when you need to connect effector with some external thing or api, which is exactly the case with Next.js here.
+
 **`generateStaticParams` example**
 
 ```tsx
