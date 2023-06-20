@@ -9,8 +9,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "index.umd.cjs",
-  "module": "index.js",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
