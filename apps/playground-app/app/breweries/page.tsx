@@ -4,20 +4,17 @@ import {
 } from "#root/page-content/breweries-list";
 import { EffectorNext } from "@effector/next";
 import { allSettled, fork, serialize } from "effector";
-import { $counter } from '#root/features/async-counter/model'
+import { AsyncCounter } from '#root/features/async-counter'
+import { TestBtn } from '#root/features/test/testBtn'
 
 export const revalidate = 1;
 
-export default async function Page() {
-  const scope = fork({values: new Map().set($counter, 47)});
-
-  await allSettled(breweriesPage.open, { scope });
-
-  const values = serialize(scope);
-
+export default function Page() {
   return (
-    <EffectorNext values={values}>
+    <div>
+      <AsyncCounter/>
+      <TestBtn/>
       <BreweriesPage />
-    </EffectorNext>
+    </div>
   );
 }

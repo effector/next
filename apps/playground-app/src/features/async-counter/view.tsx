@@ -10,12 +10,8 @@ export function AsyncCounter() {
   const { counter, ticking } = useUnit({
     counter: $counter,
     ticking: $timerTicking,
-    counterInit: counterInit
   });
 
-  useEffect(() => {
-    counterInit()
-  },[])
 
   console.log('view', {counter})
   return (

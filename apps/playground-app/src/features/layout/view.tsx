@@ -29,7 +29,6 @@ export function PageLayout(props: React.PropsWithChildren<{}>) {
           </h1>
           <small>Playground app to research Next.js + Effector</small>
         </div>
-        <AsyncCounter />
         <nav style={{ marginBottom: 0 }}>
           <ul>
             {links.map((link) => (

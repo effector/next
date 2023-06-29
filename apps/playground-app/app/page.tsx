@@ -1,3 +1,5 @@
+import { AsyncCounter } from '#root/features/async-counter'
+
 export default function Home() {
   return (
     <div>
@@ -6,6 +8,7 @@ export default function Home() {
         Created to research how to use Effector with Next.js, with various
         possible edge-cases.
       </p>
+      <AsyncCounter />
     </div>
   );
 }

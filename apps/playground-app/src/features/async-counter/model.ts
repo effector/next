@@ -1,25 +1,48 @@
-import { sleep } from "#root/shared/lib/sleep";
-import { createEvent, createStore, createEffect, sample } from "effector";
+import { sleep } from '#root/shared/lib/sleep'
+import { createEffect, createEvent, createStore, sample } from 'effector'
 
-export const buttonClicked = createEvent();
+export const buttonClicked = createEvent()
 export const counterInit = createEvent()
-export const $counter = createStore(0).on(buttonClicked, (state) => state + 1);
+export const $counter = createStore(0).on(buttonClicked, (state) => state + 1)
 
-const logFx = createEffect<number, void>((val: number) => console.log('logFx ->', val))
+const logFx = createEffect((val: number) => console.log('logFx ->', val))
 
 sample({
   clock: counterInit,
   source: $counter,
   fn: (source) => source,
   target: logFx
+});
+
+
+const eventInEffect = createEvent()
+sample({
+  clock: eventInEffect,
+  source: $counter,
+  fn: (source) => {
+    console.log('eventInEffect ->', source)
+    return source
+  },
+  target: logFx
 })
 
-$counter.watch(counter => console.log({counter}))
+export const btnClicked = createEvent()
+
+const btnClickedFx = createEffect(async() => {
+  eventInEffect()
+  await sleep(2_000)
+})
+
+sample({clock: btnClicked, target: btnClickedFx})
+
 
 const timerFx = createEffect(() => sleep(1_000));
 
 
-export const $timerTicking = createStore(false).on(buttonClicked, (s) => !s);
+
+
+
+export const $timerTicking = createStore(false).on(buttonClicked, (s) => !s)
 
 sample({
   clock: buttonClicked,
