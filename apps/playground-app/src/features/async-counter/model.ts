@@ -29,8 +29,8 @@ sample({
 export const btnClicked = createEvent()
 
 const btnClickedFx = createEffect(async() => {
-  eventInEffect()
   await sleep(2_000)
+  eventInEffect()
 })
 
 sample({clock: btnClicked, target: btnClickedFx})
