@@ -2,15 +2,22 @@
 
 import { useUnit } from "effector-react";
 import { Button } from "#root/shared/ui";
-import { buttonClicked, $counter, $timerTicking } from "./model";
+import { buttonClicked, $counter, $timerTicking, counterInit } from './model'
+import { useEffect } from 'react'
 
 export function AsyncCounter() {
   const click = useUnit(buttonClicked);
   const { counter, ticking } = useUnit({
     counter: $counter,
     ticking: $timerTicking,
+    counterInit: counterInit
   });
 
+  useEffect(() => {
+    counterInit()
+  },[])
+
+  console.log('view', {counter})
   return (
     <Button onClick={() => click()}>
       Count: {counter} ({ticking ? "ticking" : "idle"})
