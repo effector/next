@@ -12,6 +12,8 @@ Also, you can use Yarn or **PNPM** to install dependencies.
 
 ## Usage
 
+You can find example app at the [`apps/playground-app`](/apps/playground-app) - it contains both App Router and Pages Router usage examples in various cases.
+
 ### SIDs
 
 To serialize and transfer state of effector stores between the network boundaries all stores must have a Stable IDentifier - sid.
