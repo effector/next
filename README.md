@@ -313,6 +313,20 @@ This is enough for gradual `App Router` adoption, but if you want the best exper
 
 New apps should always be started with App Router, as it is the main way to build Next.js applications now.
 
+### App Router architecture edge-case
+
+There is a known caveat with App Router architecture, which, so far, applies to `effector` and `@effector/next` too:
+
+**Layout Components, Page Components and any nested React Server Components cannot be aware of each other during server rendering.**
+
+☝️ It means that if there is a some effector's store, that is used in the Layout Component and later is updated during rendering of Page Component - at the client browser there might be a layout flicker visible at the Layout Component.
+
+It happens, because at the server, by the moment of Page Component rendering, its Layout had already rendered its part of the response, including all components in it, which will use the stores state at the moment of their rendering. So, if such store is later changed in Page Component - Layout Compoment at the client will "see" and react to this change only after hydration at the client.
+
+You can reproduce that behavior in the example [`playground-app`](/apps/playground-app), by changing the `$counter` store, which controls the state of the counter button in the navbar which is rendered at the common `layout.tsx`, in some of `page.tsx` components.
+
+The navbar counter button will first be visible with count `0` (as it is a state of the `$counter` at the moment of layout render) and then it will change to whatever value was set during `page.tsx` render.
+
 ### Non-serializable values
 
 If you have Effector stores that contain values that cannot be safely passed to `JSON.stringify`, you will have problems passing the values to the client.
