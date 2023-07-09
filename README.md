@@ -92,6 +92,44 @@ export async function getStaticProps() {
 Notice, that serialized scope values are provided via the same `values` prop, which is used in the `_app.tsx` for providing values to `EffectorNext`.
 It is up to you to pick some prop name to connect server handlers with client prop in `_app.tsx`.
 
+#### 3. Next.js Pages Router API Usage
+
+There is a bunch of special APIs, which work in the Pages Router mode.
+
+[See the relevant Next.js docs for API details](https://nextjs.org/docs/pages/api-reference)
+
+**`getServerSideProps` with `{ notFound: true }`**
+
+You can return a special object of `{ notFound: true }` shape to command Next.js render the [common 404 page](https://nextjs.org/docs/pages/building-your-application/routing/custom-error#404-page)
+
+```tsx
+import { fork, allSettled, serialize } from "effector";
+
+import { pageStarted, $isNotFound } from "../src/my-page-model";
+
+export async function getStaticProps() {
+  const scope = fork();
+
+  await allSettled(pageStarted, { scope, params });
+
+  if (scope.getState($isNotFound)) {
+    // If, after all computations there is still something missing,
+    // and user is meant to see the 404
+
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      // notice serialized effector's scope here!
+      values: serialize(scope),
+    },
+  };
+}
+```
+
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
 Also see the [`nextjs-effector`](https://github.com/risen228/nextjs-effector) package (_yeah, naming of the Next.js-related packages is kind of compicated_), which provides better DX to Pages Router usage and is built on top of the `@effector/next`.
@@ -123,6 +161,8 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
 }
 ```
 
+☝️ This will allow any component anywhere in the tree to access any Effector store, regardless of whether that page performs any server-side computations or not
+
 #### 2. Server-side computations
 
 Server computations work in a similiar way to `pages` directory, but inside Server Components of the `app` pages.
@@ -148,7 +188,7 @@ export default async function Page() {
 }
 ```
 
-This will automatically render this subtree with effector's state and also will automatically "hydrate" client scope with new values, once this update is rendered in the browser.
+☝️ This will automatically render [this subtree](https://github.com/effector/next/tree/main#app-router-architecture-edge-case) with calculated effector's state and also will automatically "hydrate" **client scope** with new values, once this update is rendered in the browser.
 
 #### 3. Next.js API's usage
 
@@ -158,8 +198,13 @@ It should be noted, that `getState` usage is typically undesirable in production
 
 **`generateStaticParams` example**
 
+[See relevant Next.js docs for API details](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)
+
 ```tsx
 // app/blog/[slug]/page.tsx
+import { fork, allSettled, serialize } from "effector"
+
+import { blogPostOpened, blogPostsStarted, $postsList } from "@app/features/blog"
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
@@ -192,8 +237,71 @@ export default async function Page({ params }: { params: { slug: string } }) {
 }
 ```
 
+**`notFound` and `redirect` example**
+
+There are few special functions, which, when called from inside of an server component, will throw a special exception, which will command Next.js to perform redirect somewhere.
+The `notFound` function will redirect to `notFound.tsx` view for a current page.
+
+[See relevant Next.js docs for API details](https://nextjs.org/docs/app/api-reference/functions/not-found)
+
+```tsx
+// app/blog/[slug]/page.tsx
+import { fork, allSettled, serialize } from "effector"
+import { notFound } from "next/navigation"
+
+import { blogPostOpened, $currentPost } from "@app/features/blog"
+
+export default async function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+
+  const scope = fork();
+
+  await allSettled(blogPostOpened, { scope, params: { id: slug } });
+
+  if (!scope.getState($currentPost)) {
+    // If there is no current post available after all computations
+    // Next.js redirect to `notFound.tsx` is triggered
+    notFound()
+  }
+
+  const values = serialize(scope);
+
+  return (
+    <EffectorNext values={values}>
+      {/* rest of the components tree */}
+    </EffectorNext>
+  );
+}
+```
+☝️ It works the same for any other of Next.js special functions
+
 That's it.
-Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - and don't forget about `use client` for client components.
+Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - and don't forget about `use client` for client components:
+
+```tsx
+// src/features/blog/post.view.tsx
+// you should use `use client`, if your component uses any hooks
+"use client"
+import { useUnit } from "effector-react"
+import { Title, Content } from "@app/shared/ui-kit"
+import { PostCommentsView } from "@app/features/comments"
+
+import { $currentPost } from "./model.ts"
+
+export function CurrentBlogPost() {
+  const post = useUnit($currentPost)
+
+  return (
+    <article>
+      <Title{post.title}</Title>
+      <Content>
+        {post.content}
+      </Content>
+      <PostCommentsView postId={post.id} />
+    </article>
+  )
+}
+```
 
 ### Dev-Tools integration
 
