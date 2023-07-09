@@ -129,6 +129,7 @@ export async function getStaticProps() {
   };
 }
 ```
+☝️ This `scope.getState` pattern works the same way for any other Next.js Pages Router server-side APIs, as well as for App Router APIs (see below)
 
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
