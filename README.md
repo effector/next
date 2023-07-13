@@ -277,7 +277,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 ☝️ It works the same for any other of Next.js special functions
 
 That's it.
-Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - and don't forget about `use client` for client components:
+Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) 
+
+#### Don't forget about `use client` for client components:
 
 ```tsx
 // src/features/blog/post.view.tsx
