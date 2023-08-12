@@ -6,6 +6,8 @@ import {
   $list,
   $currentBrewery,
 } from "#root/features/breweries";
+import { sleep } from "#root/shared/lib/sleep";
+
 import { allSettled, fork, serialize } from "effector";
 import { useRouter } from "next/router";
 
@@ -33,6 +35,11 @@ export const getStaticProps = async ({
 
   const values = serialize(scope);
 
+  /**
+   * Force a delay to show the "fallback" loading state
+   */
+  await sleep(1000);
+
   return {
     props: {
       values,
@@ -45,7 +52,12 @@ export default function Page() {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <div>loading...</div>
+        <div>(This is a `router.isFallback` state)</div>
+      </div>
+    );
   }
 
   if (!brewery) {
