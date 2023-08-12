@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 
   const list = scope.getState($list);
 
-  return list.map((brewery) => ({ id: brewery.id }));
+  return list.map((brewery) => ({ id: brewery.id })).slice(0, 3);
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
