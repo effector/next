@@ -19,7 +19,15 @@ export const getStaticPaths = async () => {
   const list = scope.getState($list);
 
   return {
-    paths: list.map((brewery) => ({ params: { id: brewery.id } })),
+    paths: list
+      .map((brewery) => ({ params: { id: brewery.id } }))
+      /**
+       * Generate only first 3 pages,
+       * so deploy of the app will be faster
+       *
+       * In real world you should generate pages based on some criteria that is relevant to your product
+       */
+      .slice(0, 3),
     fallback: true,
   };
 };
