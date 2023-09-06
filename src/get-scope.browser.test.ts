@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi, afterEach } from "vitest";
 import {
   createStore,
   createEvent,
@@ -10,9 +10,10 @@ import {
   allSettled,
   combine,
   sample,
+  createWatch,
 } from "effector";
 
-import { getScope } from "./get-scope";
+import { getScope, PRIVATE_resetCurrentScope } from "./get-scope";
 
 const up = createEvent();
 const longUpFx = createEffect(async () => {
@@ -38,7 +39,11 @@ const $specialData = createStore(getFixedDate(), {
 }).on($count, () => getFixedDate());
 
 describe("getClientScope", () => {
+  afterEach(() => {
+    PRIVATE_resetCurrentScope();
+  })
   test("should handle server values injection on the fly", async () => {
+    const watcherCalled = vi.fn(); // Imitates useUnit and stuff
     const serverScope = fork();
 
     await allSettled(up, { scope: serverScope });
@@ -48,6 +53,13 @@ describe("getClientScope", () => {
     const serverValues = serialize(serverScope);
 
     const clientScopeOne = getScope();
+
+    // useUnit and other bindings are using createWatch under the hood
+    const unwatch = createWatch({
+      scope: clientScopeOne,
+      unit: $count,
+      fn: watcherCalled,
+    });
 
     expect(clientScopeOne.getState($count)).toEqual(0);
     expect(clientScopeOne.getState($derived)).toEqual({ ref: 0 });
@@ -59,6 +71,7 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.pending)).toEqual(false);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
+    expect(watcherCalled).not.toHaveBeenCalled();
 
     const promise = allSettled(longUpFx, { scope: clientScopeOne });
 
@@ -76,6 +89,7 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.pending)).toEqual(true);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(1);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
+    expect(watcherCalled).toHaveBeenCalledTimes(1);
 
     await promise;
 
@@ -89,6 +103,9 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.pending)).toEqual(false);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
+    expect(watcherCalled).toHaveBeenCalledTimes(2);
+
+    unwatch();
   });
   test("shallow navigation to same page", async () => {
     const serverScope = fork();

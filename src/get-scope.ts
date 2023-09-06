@@ -31,7 +31,7 @@ export function getClientScope() {
  *
  * This temporary solution on hacks allows us to solve the pain of library users when working with Next.js, as well as gather much more information to develop a better API.
  */
-const _currentScope: Scope = fork();
+let _currentScope: Scope = fork();
 let prevValues: Values;
 /**
  * @private
@@ -100,3 +100,8 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
 
 // types for convenience
 type StoreSerializationConfig = Exclude<Parameters<typeof createStore>[1], undefined>["serialize"];
+
+// for library testing purposes
+export function PRIVATE_resetCurrentScope() {
+  _currentScope = fork();
+}
