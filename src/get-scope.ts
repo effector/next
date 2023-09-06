@@ -1,4 +1,11 @@
-import { fork, type Scope, type createStore, type Json } from "effector";
+import {
+  fork,
+  type Scope,
+  type createStore,
+  type Json,
+  Node,
+  launch,
+} from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
@@ -60,6 +67,7 @@ function INTERNAL_getClientScope(values?: Values) {
 
   HACK_injectValues(_currentScope, values);
   HACK_updateScopeRefs(_currentScope, values);
+  HACK_runScopeLinks(_currentScope);
 
   return _currentScope;
 }
@@ -98,8 +106,33 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
   }
 }
 
+function HACK_runScopeLinks(tscope: Scope) {
+  const scope = tscope as any;
+  const currentValues = {} as Record<string, any>;
+
+  Object.values(scope.reg).forEach((ref: any) => {
+    if (ref?.meta?.op === "store") {
+      const storeId = ref.meta.id;
+      currentValues[storeId] = ref.current;
+    }
+  });
+
+  Object.entries(scope.additionalLinks).forEach(([id, links]: any) => {
+    links.forEach((link: Node) => {
+      launch({
+        scope: scope,
+        target: link,
+        params: currentValues[id],
+      });
+    });
+  });
+}
+
 // types for convenience
-type StoreSerializationConfig = Exclude<Parameters<typeof createStore>[1], undefined>["serialize"];
+type StoreSerializationConfig = Exclude<
+  Parameters<typeof createStore>[1],
+  undefined
+>["serialize"];
 
 // for library testing purposes
 export function PRIVATE_resetCurrentScope() {
