@@ -5,6 +5,7 @@ import {
   type Json,
   Node,
   launch,
+  StateRef,
 } from "effector";
 
 type Values = Record<string, unknown>;
@@ -67,7 +68,6 @@ function INTERNAL_getClientScope(values?: Values) {
 
   HACK_injectValues(_currentScope, values);
   HACK_updateScopeRefs(_currentScope, values);
-  HACK_runScopeLinks(_currentScope);
 
   return _currentScope;
 }
@@ -77,18 +77,28 @@ function HACK_injectValues(scope: Scope, values: Values) {
   Object.assign(scope.values.sidMap, values);
 }
 
-function HACK_updateScopeRefs(scope: Scope, values: Values) {
-  // @ts-expect-error
+function HACK_updateScopeRefs(tscope: Scope, values: Values) {
+  const scope = tscope as ScopeInternal;
+
+  const linksToRun: [string, string, unknown][] = [];
+
   for (const id in scope.reg) {
-    // @ts-expect-error
     if (Object.hasOwnProperty.call(scope.reg, id)) {
-      // @ts-expect-error
       const ref = scope.reg[id];
+
+      /**
+       * Schedule external watchers (useUnit, etc) re-run
+       */
+      const nodeId = ref?.meta?.id;
+
+      if (nodeId && scope.additionalLinks[nodeId]) {
+        linksToRun.push([nodeId, ref.id, ref.current]);
+      }
+
       if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
         /**
          * Force recalculation of derived values
          */
-        // @ts-expect-error
         delete scope.reg[id];
       } else {
         /**
@@ -104,28 +114,32 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
       }
     }
   }
-}
 
-function HACK_runScopeLinks(tscope: Scope) {
-  const scope = tscope as any;
-  const currentValues = {} as Record<string, any>;
+  /**
+   * Run scheduled watchers
+   */
+  if (linksToRun.length) {
+    linksToRun.forEach(([nodeId, refId, oldValue]) => {
+      const newValue = scope.reg[refId].current;
 
-  Object.values(scope.reg).forEach((ref: any) => {
-    if (ref?.meta?.op === "store") {
-      const storeId = ref.meta.id;
-      currentValues[storeId] = ref.current;
-    }
-  });
+      /**
+      * Skip if value was not changed
+       */
+      if (newValue === oldValue) return;
 
-  Object.entries(scope.additionalLinks).forEach(([id, links]: any) => {
-    links.forEach((link: Node) => {
-      launch({
-        scope: scope,
-        target: link,
-        params: currentValues[id],
-      });
-    });
-  });
+      const links = scope.additionalLinks[nodeId];
+
+      if (links) {
+        links.forEach((link) => {
+          launch({
+            target: link,
+            params: newValue,
+            scope,
+          });
+        });
+      }
+    })
+  }
 }
 
 // types for convenience
@@ -133,6 +147,11 @@ type StoreSerializationConfig = Exclude<
   Parameters<typeof createStore>[1],
   undefined
 >["serialize"];
+
+type ScopeInternal = Scope & {
+  reg: Record<string, StateRef & { meta?: Record<string, string> }>;
+  additionalLinks: Record<string, Node[]>;
+};
 
 // for library testing purposes
 export function PRIVATE_resetCurrentScope() {
