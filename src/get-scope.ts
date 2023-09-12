@@ -120,12 +120,12 @@ function HACK_updateScopeRefs(tscope: Scope, values: Values) {
    */
   if (linksToRun.length) {
     linksToRun.forEach(([nodeId, refId, oldValue]) => {
-      const newValue = scope.reg[refId].current;
+      const ref = scope.reg[refId];
 
       /**
-      * Skip if value was not changed
+       * Skip if value was not changed
        */
-      if (newValue === oldValue) return;
+      if (ref && ref.current === oldValue) return;
 
       const links = scope.additionalLinks[nodeId];
 
@@ -133,12 +133,15 @@ function HACK_updateScopeRefs(tscope: Scope, values: Values) {
         links.forEach((link) => {
           launch({
             target: link,
-            params: newValue,
+            /**
+             * `effector-react` internals will get current value internally
+             */
+            params: null,
             scope,
           });
         });
       }
-    })
+    });
   }
 }
 

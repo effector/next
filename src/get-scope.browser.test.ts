@@ -94,7 +94,12 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
   });
-  test("watchers should re-run, if value is changed after server values injection", async () => {
+  /**
+   * Current fix for this test is only implemented inside `effector-react@22.5.4`
+   * 
+   * TODO: After fix is ported into original createWatch of `effector` package in the 23.0.0 release, remove skip
+   */
+  test.skip("watchers should re-run, if value is changed after server values injection", async () => {
     const watcherCalled = vi.fn(); // Imitates useUnit and stuff
 
     const scope = getScope({
