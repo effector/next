@@ -80,7 +80,7 @@ function HACK_injectValues(scope: Scope, values: Values) {
 function HACK_updateScopeRefs(tscope: Scope, values: Values) {
   const scope = tscope as ScopeInternal;
 
-  const linksToRun: [string, string, unknown][] = [];
+  const linksToRun: string[] = [];
 
   for (const id in scope.reg) {
     if (Object.hasOwnProperty.call(scope.reg, id)) {
@@ -92,7 +92,7 @@ function HACK_updateScopeRefs(tscope: Scope, values: Values) {
       const nodeId = ref?.meta?.id;
 
       if (nodeId && scope.additionalLinks[nodeId]) {
-        linksToRun.push([nodeId, ref.id, ref.current]);
+        linksToRun.push(nodeId);
       }
 
       if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
@@ -119,26 +119,21 @@ function HACK_updateScopeRefs(tscope: Scope, values: Values) {
    * Run scheduled watchers
    */
   if (linksToRun.length) {
-    linksToRun.forEach(([nodeId, refId, oldValue]) => {
-      const ref = scope.reg[refId];
-
-      /**
-       * Skip if value was not changed
-       */
-      if (ref && ref.current === oldValue) return;
-
+    linksToRun.forEach((nodeId) => {
       const links = scope.additionalLinks[nodeId];
 
       if (links) {
         links.forEach((link) => {
-          launch({
-            target: link,
-            /**
-             * `effector-react` internals will get current value internally
-             */
-            params: null,
-            scope,
-          });
+          if (link.meta.watchOp === "store") {
+            launch({
+              target: link,
+              /**
+               * `effector-react` internals will get current value internally
+               */
+              params: null,
+              scope,
+            });
+          }
         });
       }
     });
