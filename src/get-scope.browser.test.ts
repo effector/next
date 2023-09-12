@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi, afterEach } from "vitest";
 import {
   createStore,
   createEvent,
@@ -10,9 +10,10 @@ import {
   allSettled,
   combine,
   sample,
+  createWatch,
 } from "effector";
 
-import { getScope } from "./get-scope";
+import { getScope, PRIVATE_resetCurrentScope } from "./get-scope";
 
 const up = createEvent();
 const longUpFx = createEffect(async () => {
@@ -38,6 +39,9 @@ const $specialData = createStore(getFixedDate(), {
 }).on($count, () => getFixedDate());
 
 describe("getClientScope", () => {
+  afterEach(() => {
+    PRIVATE_resetCurrentScope();
+  });
   test("should handle server values injection on the fly", async () => {
     const serverScope = fork();
 
@@ -89,6 +93,43 @@ describe("getClientScope", () => {
     expect(clientScopeOne.getState(longUpFx.pending)).toEqual(false);
     expect(clientScopeOne.getState(longUpFx.inFlight)).toEqual(0);
     expect(clientScopeOne.getState($specialData)).toEqual(getFixedDate());
+  });
+  /**
+   * Current fix for this test is only implemented inside `effector-react@22.5.4`
+   * 
+   * TODO: After fix is ported into original createWatch of `effector` package in the 23.0.0 release, remove skip
+   */
+  test.skip("watchers should re-run, if value is changed after server values injection", async () => {
+    const watcherCalled = vi.fn(); // Imitates useUnit and stuff
+
+    const scope = getScope({
+      [`${$count.sid}`]: 0,
+    });
+
+    const unwatch = createWatch({
+      unit: $count,
+      scope,
+      fn: watcherCalled,
+    });
+
+    expect(scope.getState($count)).toEqual(0);
+    expect(watcherCalled).toHaveBeenCalledTimes(0);
+
+    const scopeTwo = getScope({
+      [`${$count.sid}`]: 1,
+    });
+
+    expect(scopeTwo.getState($count)).toEqual(1);
+    expect(watcherCalled).toHaveBeenCalledTimes(1);
+
+    const scopeThree = getScope({
+      [`${$count.sid}`]: 1,
+    });
+
+    expect(scopeThree.getState($count)).toEqual(1);
+    expect(watcherCalled).toHaveBeenCalledTimes(1);
+
+    unwatch();
   });
   test("shallow navigation to same page", async () => {
     const serverScope = fork();

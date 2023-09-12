@@ -1,4 +1,12 @@
-import { fork, type Scope, type createStore, type Json } from "effector";
+import {
+  fork,
+  type Scope,
+  type createStore,
+  type Json,
+  Node,
+  launch,
+  StateRef,
+} from "effector";
 
 type Values = Record<string, unknown>;
 const isClient = typeof document !== "undefined";
@@ -31,7 +39,7 @@ export function getClientScope() {
  *
  * This temporary solution on hacks allows us to solve the pain of library users when working with Next.js, as well as gather much more information to develop a better API.
  */
-const _currentScope: Scope = fork();
+let _currentScope: Scope = fork();
 let prevValues: Values;
 /**
  * @private
@@ -69,18 +77,28 @@ function HACK_injectValues(scope: Scope, values: Values) {
   Object.assign(scope.values.sidMap, values);
 }
 
-function HACK_updateScopeRefs(scope: Scope, values: Values) {
-  // @ts-expect-error
+function HACK_updateScopeRefs(tscope: Scope, values: Values) {
+  const scope = tscope as ScopeInternal;
+
+  const linksToRun: string[] = [];
+
   for (const id in scope.reg) {
-    // @ts-expect-error
     if (Object.hasOwnProperty.call(scope.reg, id)) {
-      // @ts-expect-error
       const ref = scope.reg[id];
+
+      /**
+       * Schedule external watchers (useUnit, etc) re-run
+       */
+      const nodeId = ref?.meta?.id;
+
+      if (nodeId && scope.additionalLinks[nodeId]) {
+        linksToRun.push(nodeId);
+      }
+
       if (!ref.meta || (!ref.meta?.named && ref.meta?.derived)) {
         /**
          * Force recalculation of derived values
          */
-        // @ts-expect-error
         delete scope.reg[id];
       } else {
         /**
@@ -96,7 +114,44 @@ function HACK_updateScopeRefs(scope: Scope, values: Values) {
       }
     }
   }
+
+  /**
+   * Run scheduled watchers
+   */
+  if (linksToRun.length) {
+    linksToRun.forEach((nodeId) => {
+      const links = scope.additionalLinks[nodeId];
+
+      if (links) {
+        links.forEach((link) => {
+          if (link.meta.watchOp === "store") {
+            launch({
+              target: link,
+              /**
+               * `effector-react` internals will get current value internally
+               */
+              params: null,
+              scope,
+            });
+          }
+        });
+      }
+    });
+  }
 }
 
 // types for convenience
-type StoreSerializationConfig = Exclude<Parameters<typeof createStore>[1], undefined>["serialize"];
+type StoreSerializationConfig = Exclude<
+  Parameters<typeof createStore>[1],
+  undefined
+>["serialize"];
+
+type ScopeInternal = Scope & {
+  reg: Record<string, StateRef & { meta?: Record<string, string> }>;
+  additionalLinks: Record<string, Node[]>;
+};
+
+// for library testing purposes
+export function PRIVATE_resetCurrentScope() {
+  _currentScope = fork();
+}
