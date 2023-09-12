@@ -5,7 +5,7 @@ specifiers:
   '@types/react': ^18.0.31
   '@vitejs/plugin-react': ^3.1.0
   effector: ^22.8.6
-  effector-react: ^22.5.1
+  effector-react: ^22.5.4
   happy-dom: ^9.10.9
   react: ^18.2.0
   typescript: ^5.0.3
@@ -18,7 +18,7 @@ devDependencies:
   '@types/react': 18.0.32
   '@vitejs/plugin-react': 3.1.0_vite@4.2.1
   effector: 22.8.6
-  effector-react: 22.5.1_lype72ruabuv3up2k4gsh4fgf4
+  effector-react: 22.5.4_lype72ruabuv3up2k4gsh4fgf4
   happy-dom: 9.10.9
   react: 18.2.0
   typescript: 5.0.3
@@ -789,8 +789,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /effector-react/22.5.1_lype72ruabuv3up2k4gsh4fgf4:
-    resolution: {integrity: sha512-Sy5b/sUEZoCuyoCr+SiHcgd0L+PQqnIGx+SuPCZ7MhECYxezkkeecsk0EVj9sykLL2qlEeg+rdiWvIATJgOTeA==}
+  /effector-react/22.5.4_lype72ruabuv3up2k4gsh4fgf4:
+    resolution: {integrity: sha512-7HmtfD/vqmqvGnu6jMojmns9cxIW45JPBkGgHrwvbXGpbm0bz2fmVj6PIttv+Bamfmrf9FAy2bZhs+Rwj+3Mxw==}
     engines: {node: '>=11.0.0'}
     peerDependencies:
       effector: ^22.0.2
