@@ -116,7 +116,19 @@ function HACK_updateScopeRefs(tscope: Scope, values: Values) {
   }
 
   /**
-   * Run scheduled watchers
+   * Delay links run to separate task,
+   * so React won't agro on us for updating state during render
+   */
+  queueMicrotask(() => {
+    HACK_runScopeWatchers(scope, linksToRun);
+  });
+}
+
+function HACK_runScopeWatchers(scope: ScopeInternal, linksToRun: string[]) {
+  /**
+   * Run watchers (`useUnit`, etc) to push new values to them
+   *
+   * Manual lauch is required because top-down re-render stops at `memo`-ed components
    */
   if (linksToRun.length) {
     linksToRun.forEach((nodeId) => {

@@ -24,7 +24,8 @@
     "build:code": "vite build",
     "build:types": "tsc",
     "build:directive": "node ./scripts/inject-use-client.mjs",
-    "build": "pnpm build:code && pnpm build:types && pnpm build:directive"
+    "build": "pnpm build:code && pnpm build:types && pnpm build:directive",
+    "dev:playground-app": "cd apps/playground-app && pnpm dev"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",

@@ -9,7 +9,7 @@ export const pageStarted = createEvent<{
 
 export const $currentPage = createStore<(typeof pageTypes)[number] | null>(null).on(
   pageStarted,
-  (_, { pageType }) => pageType
+  (_, { pageType }) => pageType ?? "unknown_page"
 );
 
 export function declarePage<Ctx = void>(config: {
