@@ -35,6 +35,19 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 [Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
+### Effector ESlint Plugin
+
+It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset
+
+**.eslintrc**
+
+```json
+{
+  "plugins": ["effector"],
+  "extends": ["plugin:effector/react"]
+}
+```
+
 ### [Pages Router](https://nextjs.org/docs/pages/building-your-application/routing) usage
 
 Before Next.js `13.4.0` Pages router was the main way to build Next.js applications. 
