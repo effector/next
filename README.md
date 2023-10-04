@@ -37,7 +37,7 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 ### Effector ESlint Plugin
 
-It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset
+It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, it will help you follow best practices and avoid common mistakes
 
 **.eslintrc**
 
