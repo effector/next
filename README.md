@@ -37,7 +37,7 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 ### Effector ESlint Plugin
 
-It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, it will help you follow best practices and avoid common mistakes
+It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, it will help you follow best practices and avoid common mistakes, like always using `useUnit`
 
 **.eslintrc**
 
@@ -47,6 +47,32 @@ It is recommened to install the official [Effector ESlint Plugin](https://eslint
   "extends": ["plugin:effector/react"]
 }
 ```
+
+#### Don't forget `useUnit` for all `effector` units
+
+In SSR applications all of effector's units need to be "binded" to the current `Scope`, which means that you should always use `useUnit` in components:
+
+```tsx
+import { useUnit } from "effector-react"
+import { eventTriggered, effectFx, $store } from "./model"
+
+export function Component() {
+ const {
+  value,
+  trigger,
+  callEffect
+ } = useUnit({
+   value: $store,
+   trigger: eventTriggered,
+   callEffect: effectFx
+ })
+
+ // rest of the components code
+}
+```
+You can find full docs about `useUnit` [here](https://effector.dev/docs/api/effector-react/useUnit).
+
+The official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset will help you to follow this rule.
 
 ### [Pages Router](https://nextjs.org/docs/pages/building-your-application/routing) usage
 
@@ -147,31 +173,6 @@ export async function getStaticProps() {
 You're all set. Just use effector's units anywhere in components code via `useUnit` from `effector-react`.
 
 Also see the [`nextjs-effector`](https://github.com/risen228/nextjs-effector) package (_yeah, naming of the Next.js-related packages is kind of compicated_), which provides better DX to Pages Router usage and is built on top of the `@effector/next`.
-
-#### Don't forget `useUnit` for all `effector` units
-
-In SSR applications all of effector's units need to be "binded" to the current `Scope`, which means that you should always use `useUnit` in components:
-
-```tsx
-import { useUnit } from "effector-react"
-import { eventTriggered, effectFx, $store } from "./model"
-
-export function Component() {
- const {
-  value,
-  trigger,
-  callEffect
- } = useUnit({
-   value: $store,
-   trigger: eventTriggered,
-   callEffect: effectFx
- })
-
- // rest of the components code
-}
-```
-You can find full docs about `useUnit` [here](https://effector.dev/docs/api/effector-react/useUnit).
-Also there is the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, which will help you to always use `useUnit`.
 
 ## [App Router](https://nextjs.org/docs/app/building-your-application/routing) usage
 
