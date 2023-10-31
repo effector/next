@@ -148,6 +148,31 @@ You're all set. Just use effector's units anywhere in components code via `useUn
 
 Also see the [`nextjs-effector`](https://github.com/risen228/nextjs-effector) package (_yeah, naming of the Next.js-related packages is kind of compicated_), which provides better DX to Pages Router usage and is built on top of the `@effector/next`.
 
+#### Don't forget `useUnit` for all `effector` units
+
+In SSR applications all of effector's units need to be "binded" to the current `Scope`, which means that you should always use `useUnit` in components:
+
+```tsx
+import { useUnit } from "effector-react"
+import { eventTriggered, effectFx, $store } from "./model"
+
+export function Component() {
+ const {
+  value,
+  trigger,
+  callEffect
+ } = useUnit({
+   value: $store,
+   trigger: eventTriggered,
+   callEffect: effectFx
+ })
+
+ // rest of the components code
+}
+```
+You can find full docs about `useUnit` [here](https://effector.dev/docs/api/effector-react/useUnit).
+Also there is the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, which will help you to always use `useUnit`.
+
 ## [App Router](https://nextjs.org/docs/app/building-your-application/routing) usage
 
 The App Router is a new paradigm for building Next.js applications using React's latest features, which declared stable since Next.js `13.4.0`.
