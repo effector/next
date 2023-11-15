@@ -596,6 +596,17 @@ export async function getServerSideProps(req) {
 }
 ```
 
+### Do not use `$store.watch` calls for debugging
+
+The `$store.watch` method works well for speeding up debugging in SPA-like environments, because in such cases effector applications usually run without `Scope`.
+However, this is not the case for Next.js, which runs as an SSR application - there are Scope instances on the server and client, and the actual state of the application is also stored in Scope.
+You can find more details [in this article](https://beta.effector.dev/en/guides/server-side-rendering/).
+
+The problem is that `$store.watch(cb)` call triggers `cb` immediately with current "non-scope" state of this store - it works this way due to historical reasons, as the watch API was created before Scopes and SSR support.
+
+You can find detailed explainer in this article:
+https://withease.pages.dev/magazine/watch_calls
+
 ### ESM dependencies and library duplicates in the bundle
 
 Since Next.js 12 [ESM imports are prioritized over CommonJS imports](https://nextjs.org/blog/next-12#es-modules-support-and-url-imports). While CJS-only dependencies are still supported, it is not recommended to use them.
