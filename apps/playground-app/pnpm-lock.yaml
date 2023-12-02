@@ -1,24 +1,24 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@effector/next': ^0.3.0
+  '@effector/next': ^0.6.1
   '@effector/redux-devtools-adapter': ^0.1.5
-  '@effector/reflect': ^8.3.1
+  '@effector/reflect': ^8.4.0
   '@faker-js/faker': ^7.6.0
-  '@farfetched/core': ^0.8.5
-  '@farfetched/runtypes': ^0.8.5
+  '@farfetched/core': ^0.11.0
+  '@farfetched/runtypes': ^0.11.0
   '@types/node': 18.15.11
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
   autoprefixer: 10.4.14
-  effector: ^22.8.6
-  effector-react: ^22.5.4
+  effector: ^23.0.0
+  effector-react: ^23.0.1
   eslint: 8.38.0
   eslint-config-next: 13.3.0
   fs-extra: ^11.1.1
   mvp.css: ^1.12.0
   next: 13.4.0
-  patronum: ^1.17.0
+  patronum: ^2.0.0
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0
@@ -28,23 +28,23 @@ specifiers:
   zx: ^7.2.1
 
 dependencies:
-  '@effector/next': 0.3.0_ouuwqytdbe3fc3hylj77mwql3u
-  '@effector/redux-devtools-adapter': 0.1.5_effector@22.8.6
-  '@effector/reflect': 8.3.1_ouuwqytdbe3fc3hylj77mwql3u
+  '@effector/next': 0.6.1_dnlfecovvhvm3mtcdvodcxoiki
+  '@effector/redux-devtools-adapter': 0.1.5_effector@23.0.0
+  '@effector/reflect': 8.4.0_dnlfecovvhvm3mtcdvodcxoiki
   '@faker-js/faker': 7.6.0
-  '@farfetched/core': 0.8.5_effector@22.8.6
-  '@farfetched/runtypes': 0.8.5_zzqdtiibempdfgbpi7ckvvwxwu
+  '@farfetched/core': 0.11.0_effector@23.0.0
+  '@farfetched/runtypes': 0.11.0_jfffepucps424tvzesf4t6rb2m
   '@types/node': 18.15.11
   '@types/react': 18.0.33
   '@types/react-dom': 18.0.11
   autoprefixer: 10.4.14_postcss@8.4.21
-  effector: 22.8.6
-  effector-react: 22.5.4_lype72ruabuv3up2k4gsh4fgf4
+  effector: 23.0.0
+  effector-react: 23.0.1_gicv25zqhzpkvioon5x4qz43ru
   eslint: 8.38.0
   eslint-config-next: 13.3.0_voubu7prgxjfsfbgx5d4sqnwiy
   mvp.css: 1.12.0
   next: 13.4.0_biqbaboplfbrettd7655fr4n2y
-  patronum: 1.17.0_effector@22.8.6
+  patronum: 2.0.0_effector@23.0.0
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -65,35 +65,35 @@ packages:
       regenerator-runtime: 0.13.11
     dev: false
 
-  /@effector/next/0.3.0_ouuwqytdbe3fc3hylj77mwql3u:
-    resolution: {integrity: sha512-e3WuX96SvH9AoGhN1PDraXiaFXnow/ZiNlTtOiLzMcY3TXhhBYXgDZOnS5n2BtUtz4GvC3/mTaYrmtxXUUtnFQ==}
+  /@effector/next/0.6.1_dnlfecovvhvm3mtcdvodcxoiki:
+    resolution: {integrity: sha512-79WW4NHF38bs08UEcxtULigzKDC1aqNs0z9nJoWXoF7WjKrcKwCecmyGHXAwBvIx6VJLp7/70vvyGU675gO+jw==}
     peerDependencies:
-      effector: ^22.8.1
-      effector-react: ^22.5.1
+      effector: ^22.8.6
+      effector-react: ^22.5.4
       react: ^18.2.0
     dependencies:
-      effector: 22.8.6
-      effector-react: 22.5.4_lype72ruabuv3up2k4gsh4fgf4
+      effector: 23.0.0
+      effector-react: 23.0.1_gicv25zqhzpkvioon5x4qz43ru
       react: 18.2.0
     dev: false
 
-  /@effector/redux-devtools-adapter/0.1.5_effector@22.8.6:
+  /@effector/redux-devtools-adapter/0.1.5_effector@23.0.0:
     resolution: {integrity: sha512-2brQsZiaBJ/BvxZFYmF46E9JIprxNp3RRcYw9kVlhpplizVKtJS0BvAfQ7Bb7aVQFJ2cYmxWPG+gMP4viT+C0w==}
     peerDependencies:
       effector: ^22.8.1
     dependencies:
-      effector: 22.8.6
+      effector: 23.0.0
     dev: false
 
-  /@effector/reflect/8.3.1_ouuwqytdbe3fc3hylj77mwql3u:
-    resolution: {integrity: sha512-RjDTBkb8smdgFMViid7R4YYjRtYwYooAAQ2F8T0fYMCfDntPtYC2e1Nd17tDKxC6HuKVuqk5CzlkQovV3QPo6A==}
+  /@effector/reflect/8.4.0_dnlfecovvhvm3mtcdvodcxoiki:
+    resolution: {integrity: sha512-MgzE9tum97JgO6ITq2Wcd42nYaInqpsrX7inRmY25Rp53YYu9ChBUMTCM/NHvc7qhFRC0PzsSCi0fkdRsjlz0g==}
     peerDependencies:
-      effector: ^22.0.0
-      effector-react: ^22.1.0
+      effector: ^22.0.0 || ^23.0.0
+      effector-react: ^22.1.0 || ^23.0.0
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.8.6
-      effector-react: 22.5.4_lype72ruabuv3up2k4gsh4fgf4
+      effector: 23.0.0
+      effector-react: 23.0.1_gicv25zqhzpkvioon5x4qz43ru
       react: 18.2.0
     dev: false
 
@@ -139,21 +139,21 @@ packages:
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: false
 
-  /@farfetched/core/0.8.5_effector@22.8.6:
-    resolution: {integrity: sha512-NpsW0Dma874dh1gcl3z/otl9+w0H7YlCMgG9RPBSxuMzkXM7ldKStiwgxI33qdFawQt3OOspeoBXL55fTEftNw==}
+  /@farfetched/core/0.11.0_effector@23.0.0:
+    resolution: {integrity: sha512-/Keno/WOZWkUocGYaxI5Wwx65zlEP+sKMqwLPSCneFc4Y2/Mf/jET41iFJtILnIf7zh6R4CF/dI605BtV3Lqtw==}
     peerDependencies:
-      effector: ^22.5.0
+      effector: ^23.0.0
     dependencies:
-      effector: 22.8.6
+      effector: 23.0.0
     dev: false
 
-  /@farfetched/runtypes/0.8.5_zzqdtiibempdfgbpi7ckvvwxwu:
-    resolution: {integrity: sha512-MCR2LikaxaM+HIAD3kXdos6Q+/h5VtsuN7DzDOVPbn7Wbcz5TYjyhaoeH8VGfIdzZCxbcaXmTcIjZxo1Fi5SZg==}
+  /@farfetched/runtypes/0.11.0_jfffepucps424tvzesf4t6rb2m:
+    resolution: {integrity: sha512-dCf0KezvH5iyKrTxDrYtIeWV1fxem24UeIzqCyJalOU6Y4SYoVyh9mO21oI8ZMTtKo4wB0Wal0IMKvMhukX0MA==}
     peerDependencies:
-      '@farfetched/core': 0.8.5
+      '@farfetched/core': 0.11.0
       runtypes: ^6.6.0
     dependencies:
-      '@farfetched/core': 0.8.5_effector@22.8.6
+      '@farfetched/core': 0.11.0_effector@23.0.0
       runtypes: 6.6.0
     dev: false
 
@@ -843,20 +843,20 @@ packages:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: true
 
-  /effector-react/22.5.4_lype72ruabuv3up2k4gsh4fgf4:
-    resolution: {integrity: sha512-7HmtfD/vqmqvGnu6jMojmns9cxIW45JPBkGgHrwvbXGpbm0bz2fmVj6PIttv+Bamfmrf9FAy2bZhs+Rwj+3Mxw==}
+  /effector-react/23.0.1_gicv25zqhzpkvioon5x4qz43ru:
+    resolution: {integrity: sha512-rWIv7La4RaCuIfzqTljQewEd7KBzhau6xpTr7w5ZB2FEEnCh5+YtelT73ifeUC+kE5iPr38MwpANyjDGQ1bl0w==}
     engines: {node: '>=11.0.0'}
     peerDependencies:
-      effector: ^22.0.2
+      effector: ^23.0.0
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.8.6
+      effector: 23.0.0
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /effector/22.8.6:
-    resolution: {integrity: sha512-Bkg/rlPs7J4dmOFGPLLcL7X0SZeA8WdRnyC2X4tGVo7i6M8oxYwtNOkEUact/zIT/MgqTGm9A8T40dPnr8oXmA==}
+  /effector/23.0.0:
+    resolution: {integrity: sha512-8lT1iX8ivWRUnJL4XG2OhCZPRZku1XVc7AwbJCChxZhhB6ii/hZgs0GOTeE3BJfvc1BKf97q2hU3Yzp323sCiA==}
     engines: {node: '>=11.0.0'}
     dev: false
 
@@ -2120,12 +2120,12 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  /patronum/1.17.0_effector@22.8.6:
-    resolution: {integrity: sha512-FCcbjJ52ELV5ikaqURjniCEV4IfrtBP6BSOBpmP7iCvC9seo83YjymSfxaaRBG5vkn/HRKf/5SDpHangJylBKw==}
+  /patronum/2.0.0_effector@23.0.0:
+    resolution: {integrity: sha512-qNlLpXXE9ULVEH6+Tj7pQeHgiRNBL1ibE8kScD89ZysW9yQym+xUQXPJzC1XZlCK4olkTHFhmFLK/mks8r/3fQ==}
     peerDependencies:
-      effector: ^22.1.2
+      effector: ^23
     dependencies:
-      effector: 22.8.6
+      effector: 23.0.0
     dev: false
 
   /pause-stream/0.0.11:

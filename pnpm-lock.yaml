@@ -4,8 +4,8 @@ specifiers:
   '@babel/core': ^7.21.4
   '@types/react': ^18.0.31
   '@vitejs/plugin-react': ^3.1.0
-  effector: ^22.8.6
-  effector-react: ^22.5.4
+  effector: ^23.0.0
+  effector-react: ^23.0.1
   happy-dom: ^9.10.9
   react: ^18.2.0
   typescript: ^5.0.3
@@ -17,8 +17,8 @@ devDependencies:
   '@babel/core': 7.21.4
   '@types/react': 18.0.32
   '@vitejs/plugin-react': 3.1.0_vite@4.2.1
-  effector: 22.8.6
-  effector-react: 22.5.4_lype72ruabuv3up2k4gsh4fgf4
+  effector: 23.0.0
+  effector-react: 23.0.1_gicv25zqhzpkvioon5x4qz43ru
   happy-dom: 9.10.9
   react: 18.2.0
   typescript: 5.0.3
@@ -789,20 +789,20 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /effector-react/22.5.4_lype72ruabuv3up2k4gsh4fgf4:
-    resolution: {integrity: sha512-7HmtfD/vqmqvGnu6jMojmns9cxIW45JPBkGgHrwvbXGpbm0bz2fmVj6PIttv+Bamfmrf9FAy2bZhs+Rwj+3Mxw==}
+  /effector-react/23.0.1_gicv25zqhzpkvioon5x4qz43ru:
+    resolution: {integrity: sha512-rWIv7La4RaCuIfzqTljQewEd7KBzhau6xpTr7w5ZB2FEEnCh5+YtelT73ifeUC+kE5iPr38MwpANyjDGQ1bl0w==}
     engines: {node: '>=11.0.0'}
     peerDependencies:
-      effector: ^22.0.2
+      effector: ^23.0.0
       react: '>=16.8.0 <19.0.0'
     dependencies:
-      effector: 22.8.6
+      effector: 23.0.0
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: true
 
-  /effector/22.8.6:
-    resolution: {integrity: sha512-Bkg/rlPs7J4dmOFGPLLcL7X0SZeA8WdRnyC2X4tGVo7i6M8oxYwtNOkEUact/zIT/MgqTGm9A8T40dPnr8oXmA==}
+  /effector/23.0.0:
+    resolution: {integrity: sha512-8lT1iX8ivWRUnJL4XG2OhCZPRZku1XVc7AwbJCChxZhhB6ii/hZgs0GOTeE3BJfvc1BKf97q2hU3Yzp323sCiA==}
     engines: {node: '>=11.0.0'}
     dev: true
 
