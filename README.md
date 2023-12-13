@@ -29,6 +29,8 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 }
 ```
 
+Notice, that **you don't need** the `reactSsr` option of the plugin, when using `@effector/next`. The `reactSsr` is a legacy API which is deprecated in the latest release of Effector.
+
 [Read the docs](https://effector.dev/docs/api/effector/babel-plugin/#usage)
 
 #### SWC Plugin
