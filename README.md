@@ -41,6 +41,12 @@ Notice, that **you don't need** the `reactSsr` option of the plugin, when using 
 
 It is recommened to install the official [Effector ESlint Plugin](https://eslint.effector.dev/) with React Preset, it will help you follow best practices and avoid common mistakes, like always using `useUnit`
 
+#### Installation
+
+See the [installation guide here](https://github.com/effector/eslint-plugin?tab=readme-ov-file#installation).
+
+#### Setup
+
 **.eslintrc**
 
 ```json
