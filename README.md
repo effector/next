@@ -244,7 +244,7 @@ Start your computations via Fork API and use `scope.getState` to extract data fr
 
 It should be noted, that `getState` usage is typically undesirable in production code - except for the cases when you need to connect effector with some external thing or api, which is exactly the case with Next.js here.
 
-**`generateStaticParams` example**
+##### `generateStaticParams` example
 
 [See relevant Next.js docs for API details](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)
 
@@ -285,7 +285,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 }
 ```
 
-**`notFound` and `redirect` example**
+##### `notFound` and `redirect` example
 
 There are few special functions, which, when called from inside of an server component, will throw a special exception, which will command Next.js to perform redirect somewhere.
 The `notFound` function will redirect to `notFound.tsx` view for a current page.
@@ -323,7 +323,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 ```
 ☝️ It works the same for any other of Next.js special functions: if you need to access the store value outside of client components, you will need to use `scope.getState`.
 
-**Server Actions example**
+##### `Server Actions` example
 
 1. Server actions must be created [as usual](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations).
 
@@ -346,6 +346,8 @@ const myActionFx = createEffect(myAction)
 ☝️ This effect can be called anywhere
 
 That's it.
+
+See [`apps/playground-app/src/features/server-action`](https://github.com/effector/next/tree/main/apps/playground-app/src/features/server-action) for live example.
 
 #### Don't forget about `use client` for client components:
 
