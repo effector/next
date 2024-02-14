@@ -18,7 +18,7 @@ specifiers:
   fs-extra: ^11.1.1
   mvp.css: ^1.12.0
   next: 14.1.0
-  patronum: ^2.0.0
+  patronum: ^2.2.0
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0
@@ -44,7 +44,7 @@ dependencies:
   eslint-config-next: 13.3.0_voubu7prgxjfsfbgx5d4sqnwiy
   mvp.css: 1.12.0
   next: 14.1.0_biqbaboplfbrettd7655fr4n2y
-  patronum: 2.0.0_effector@23.0.0
+  patronum: 2.2.0_effector@23.0.0
   postcss: 8.4.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2118,8 +2118,8 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  /patronum/2.0.0_effector@23.0.0:
-    resolution: {integrity: sha512-qNlLpXXE9ULVEH6+Tj7pQeHgiRNBL1ibE8kScD89ZysW9yQym+xUQXPJzC1XZlCK4olkTHFhmFLK/mks8r/3fQ==}
+  /patronum/2.2.0_effector@23.0.0:
+    resolution: {integrity: sha512-Idsb5swd+2UI1NuBlHJuVA4WlaUeEluZJxGAZ9obCViuEf4pP68bij3f1sZCM/vqqWPsbHclYweDNt/sWu0O1g==}
     peerDependencies:
       effector: ^23
     dependencies:
