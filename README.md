@@ -321,12 +321,35 @@ export default async function Page({ params }: { params: { slug: string } }) {
   );
 }
 ```
-☝️ It works the same for any other of Next.js special functions
+☝️ It works the same for any other of Next.js special functions: if you need to access the store value outside of client components, you will need to use `scope.getState`.
+
+**Server Actions example**
+
+1. Server actions must be created [as usual](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations).
+
+```typescript
+// src/feature/action.ts
+"use server"
+
+export const myAction = async () => doServerOnlyStuff()
+```
+
+2. Then server action can be used in Effector models as an [effect handler](https://effector.dev/en/api/effector/createeffect/)
+
+```typescript
+// src/feature/model.ts
+import { createEffect } from "effector"
+import { myAction } from "./action.ts"
+
+const myActionFx = createEffect(myAction)
+```
+☝️ This effect can be called anywhere
 
 That's it.
-Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) 
 
 #### Don't forget about `use client` for client components:
+
+Just [write effector's models as usual](https://effector.dev/) and use effector's units anywhere in components code [via `useUnit` from `effector-react`](https://effector.dev/docs/api/effector-react/useUnit) - but don't forget, that to use hooks you need the `"use client"` directive.
 
 ```tsx
 // src/features/blog/post.view.tsx

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AsyncCounter } from "#root/features/async-counter";
 import { MemoUpdatesBugCheck } from "#root/features/memo-check";
+import { ServerAction } from "#root/features/server-action";
 
 const links = [
   {
@@ -30,6 +31,7 @@ export function PageLayout(props: React.PropsWithChildren<{}>) {
           </h1>
           <small>Playground app to research Next.js + Effector</small>
           <MemoUpdatesBugCheck />
+          <ServerAction />
         </div>
         <AsyncCounter />
         <nav style={{ marginBottom: 0 }}>
