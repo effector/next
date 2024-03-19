@@ -1,5 +1,5 @@
 "use server";
-import { createHash } from "node:crypto";
+import { createHash } from "crypto";
 
 export const hashValue = async (value: string) => {
 
