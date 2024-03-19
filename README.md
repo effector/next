@@ -37,7 +37,7 @@ Notice, that **you don't need** the `reactSsr` option of the plugin, when using 
 
 #### SWC Plugin
 
-There is an awesome community made and supported SWC port of the plugin, check this out:
+There is a awesome SWC port of the plugin, check it out:
 
 [Read effector SWC plugin documentation](https://github.com/kireevmp/effector-swc-plugin)
 
