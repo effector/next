@@ -22,6 +22,8 @@ Sid's are added automatically via either built-in babel plugin or our experiment
 
 #### Babel-plugin
 
+Effector comes with built-in official Babel plugin, which you can use for SIDs:
+
 ```json
 {
   "presets": ["next/babel"],
@@ -35,7 +37,7 @@ Notice, that **you don't need** the `reactSsr` option of the plugin, when using 
 
 #### SWC Plugin
 
-[Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
+[Read effector SWC plugin documentation](https://github.com/kireevmp/effector-swc-plugin)
 
 ### Effector ESlint Plugin
 
