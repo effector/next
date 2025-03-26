@@ -33,6 +33,7 @@ export function declarePage<Ctx = void>(config: {
      * See the docs on SIDs: https://effector.dev/docs/api/effector/babel-plugin#sid
      */
     sid: `pageCtx:${config.pageType}`,
+    skipVoid: false,
   });
 
   sample({
