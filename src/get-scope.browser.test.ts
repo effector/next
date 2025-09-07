@@ -159,6 +159,30 @@ describe("getClientScope", () => {
 
     expect(clientScopeTwo.getState($count)).toEqual(4);
   });
+
+  test("should support custom serializers", async () => {
+     const $homeDate = createStore<Date | null>(null, {
+        serialize: {
+         read: (dateStringOrNull) =>
+           typeof dateStringOrNull === "string" ? new Date(dateStringOrNull) : null,
+         write: (dateOrNull) => (dateOrNull ? dateOrNull.toISOString() : null),
+        },
+    });
+
+    const serverScope = fork();
+
+    await allSettled($homeDate, {scope: serverScope, params: new Date(2024, 10, 3) });
+
+    const values = serialize(serverScope);
+
+    const scope = getScope(values);
+
+    const clientValue = scope.getState($homeDate);
+
+    console.log(clientValue);
+
+    expect(clientValue instanceof Date).toBe(true);
+  });
 });
 
 describe("getScope implementation details", () => {
