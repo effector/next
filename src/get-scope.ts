@@ -75,6 +75,11 @@ function INTERNAL_getClientScope(values?: Values) {
 function HACK_injectValues(scope: Scope, values: Values) {
   // @ts-expect-error this is a really hacky way to "hydrate" scope
   Object.assign(scope.values.sidMap, values);
+  /**
+   * We should explicitly set this flag to true, because otherwise the scope will be treated as it was not created from serialized values
+   * => effector will not apply custom serializers to the scope
+   */
+  (scope as any).fromSerialize = true;
 }
 
 function HACK_updateScopeRefs(tscope: Scope, values: Values) {
