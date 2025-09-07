@@ -96,7 +96,7 @@ describe("getClientScope", () => {
   });
   /**
    * Current fix for this test is only implemented inside `effector-react@22.5.4`
-   * 
+   *
    * TODO: After fix is ported into original createWatch of `effector` package in the 23.0.0 release, remove skip
    */
   test.skip("watchers should re-run, if value is changed after server values injection", async () => {
@@ -161,18 +161,23 @@ describe("getClientScope", () => {
   });
 
   test("should support custom serializers", async () => {
-     const $homeDate = createStore<Date | null>(null, {
-        serialize: {
-         read: (dateStringOrNull) =>
-           typeof dateStringOrNull === "string" ? new Date(dateStringOrNull) : null,
-         write: (dateOrNull) => (dateOrNull ? dateOrNull.toISOString() : null),
-        },
-        sid: "test_sid",
+    const $homeDate = createStore<Date | null>(null, {
+      serialize: {
+        read: (dateStringOrNull) =>
+          typeof dateStringOrNull === "string"
+            ? new Date(dateStringOrNull)
+            : null,
+        write: (dateOrNull) => (dateOrNull ? dateOrNull.toISOString() : null),
+      },
+      sid: "test_sid",
     });
 
     const serverScope = fork();
 
-    await allSettled($homeDate, {scope: serverScope, params: new Date(2024, 10, 3) });
+    await allSettled($homeDate, {
+      scope: serverScope,
+      params: new Date(2024, 10, 3),
+    });
 
     const values = serialize(serverScope);
 
@@ -180,9 +185,8 @@ describe("getClientScope", () => {
 
     const clientValue = scope.getState($homeDate);
 
-    console.log(clientValue);
-
     expect(clientValue instanceof Date).toBe(true);
+    expect(clientValue!.getTime()).toEqual(new Date(2024, 10, 3).getTime());
   });
 });
 
