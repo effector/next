@@ -167,6 +167,7 @@ describe("getClientScope", () => {
            typeof dateStringOrNull === "string" ? new Date(dateStringOrNull) : null,
          write: (dateOrNull) => (dateOrNull ? dateOrNull.toISOString() : null),
         },
+        sid: "test_sid",
     });
 
     const serverScope = fork();
